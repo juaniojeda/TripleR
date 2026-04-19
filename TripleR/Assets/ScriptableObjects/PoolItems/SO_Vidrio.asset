@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 574906734315f4b48b7a97dc9b1a7e44, type: 3}
+  m_Name: SO_Vidrio
+  m_EditorClassIdentifier: 
+  id: vidrio
+  prefab: {fileID: 2111190273536547859, guid: d6b02080baad42044bd81854966b9269, type: 3}
+  initialPoolSize: 5
+  maxPoolSize: 5
+  canExpand: 0
