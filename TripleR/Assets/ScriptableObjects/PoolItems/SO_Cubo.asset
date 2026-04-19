@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: SO_Cubo
   m_EditorClassIdentifier: 
   id: cubo
+  categoryId: cubo
   prefab: {fileID: 6225481885313563946, guid: 45f0f37fc99e7f644822a8f0c8a138ff, type: 3}
   initialPoolSize: 5
   maxPoolSize: 5
   canExpand: 0
+  correctPoints: 10
+  wrongPoints: -5

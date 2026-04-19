@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 8934010393232253228}
   - component: {fileID: 1821878849327781692}
   - component: {fileID: 107518591154020948}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PF_Cubo
   m_TagString: Residuo
   m_Icon: {fileID: 0}
