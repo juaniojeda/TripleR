@@ -16,6 +16,9 @@ public sealed class ScoreManager : MonoBehaviour
     [SerializeField] private float shakeMagnitude = 8f;
     [SerializeField] private float shakeDuration = 0.35f;
 
+    [Header("Planeta")]
+    [SerializeField] private PlanetaManager planeta;
+
     private int currentScore;
     public int CurrentScore => currentScore;
 
@@ -40,7 +43,10 @@ public sealed class ScoreManager : MonoBehaviour
             currentScore = 0;
 
         RefreshUI();
-        Debug.Log($"Puntaje actual: {currentScore}");
+
+        // Notificar al planeta
+        if (planeta != null)
+            planeta.NotificarCambioScore(amount);
 
         // Cancelar animación previa si hay una corriendo
         if (_activeAnimation != null)
