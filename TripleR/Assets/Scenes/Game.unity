@@ -4965,7 +4965,7 @@ GameObject:
   - component: {fileID: 502686538}
   - component: {fileID: 502686540}
   - component: {fileID: 502686539}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4981,14 +4981,14 @@ RectTransform:
   m_GameObject: {fileID: 502686537}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1582085322}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44, y: 397}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 682.9, y: 191.20001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &502686539
@@ -11065,7 +11065,8 @@ GameObject:
   - component: {fileID: 1582085320}
   - component: {fileID: 1582085319}
   - component: {fileID: 1582085323}
-  m_Layer: 6
+  - component: {fileID: 1582085324}
+  m_Layer: 5
   m_Name: HudCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11122,7 +11123,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 2007254678}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -11142,18 +11143,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582085318}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: -0.012557264, z: 0, w: 0.99992114}
+  m_LocalPosition: {x: 0, y: 0, z: 8.86}
+  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 502686538}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -1.439, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1080.5, y: 506.5}
-  m_SizeDelta: {x: 2161, y: 1013}
+  m_AnchoredPosition: {x: -0.19, y: 1.3}
+  m_SizeDelta: {x: 1331, y: 581}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1582085323
 MonoBehaviour:
@@ -11183,6 +11184,26 @@ MonoBehaviour:
   overlapMask: 0
   compositionMode: 1
   _overlayEnabled: 1
+--- !u!114 &1582085324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582085318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b6336de8054b6cbf01d2a6db708a1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  distance: 1.25
+  horizontalOffset: 0
+  verticalOffset: 0.16
+  hudScale: {x: 0.001, y: 0.001, z: 0.001}
+  followPosition: 0
+  copyTargetRotation: 0
+  lookAtTargetHorizontally: 1
 --- !u!1 &1614529231
 GameObject:
   m_ObjectHideFlags: 0
