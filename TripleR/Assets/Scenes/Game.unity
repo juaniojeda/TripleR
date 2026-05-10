@@ -2061,7 +2061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &107991643
 Transform:
   m_ObjectHideFlags: 0
@@ -7551,6 +7551,99 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1305798283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &929819383
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1149630565}
+    m_Modifications:
+    - target: {fileID: 1337963475648879458, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4427702127579495210, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_Name
+      value: Confetti_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.055
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.156
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.197
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+--- !u!4 &929819384 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5498265145208571368, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+  m_PrefabInstance: {fileID: 929819383}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &929819385 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3655407607039571047, guid: 8fb520758e3e0b6459a33447113a0db8, type: 3}
+  m_PrefabInstance: {fileID: 929819383}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d8d09b80f47f28438d1af85287df7b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &937763279
 GameObject:
   m_ObjectHideFlags: 0
@@ -9186,6 +9279,7 @@ GameObject:
   - component: {fileID: 1149630565}
   - component: {fileID: 1149630567}
   - component: {fileID: 1149630566}
+  - component: {fileID: 1149630568}
   m_Layer: 0
   m_Name: Container Trigger
   m_TagString: Untagged
@@ -9205,7 +9299,8 @@ Transform:
   m_LocalPosition: {x: 0.09000003, y: 0.08246064, z: 0.32532406}
   m_LocalScale: {x: 1.7, y: 1, z: 1.7}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 929819384}
   m_Father: {fileID: 73215592}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1149630566
@@ -9247,6 +9342,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.60776883, y: 1, z: 0.5683366}
   m_Center: {x: -0.058533337, y: 0, z: -0.21583055}
+--- !u!114 &1149630568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149630564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd71b2d5709f31d4881e81950a332847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confettiPrefab: {fileID: 929819385}
+  defaultPoolSize: 3
+  maxPoolSize: 10
 --- !u!1 &1150227582
 GameObject:
   m_ObjectHideFlags: 0
@@ -12076,7 +12186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1638009968
 Transform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public sealed class ClassificationContainer : MonoBehaviour
 {
+    public event Action<Vector3> OnCorrectClassification;
+
     [SerializeField] private string acceptedCategoryId;
     [SerializeField] private LayerMask classifiableLayers;
     [SerializeField] private ScoreManager scoreManager;
@@ -36,6 +38,11 @@ public sealed class ClassificationContainer : MonoBehaviour
 
         if (scoreManager != null)
             scoreManager.AddScore(points);
+
+        if (isCorrect)
+        {
+            OnCorrectClassification?.Invoke(other.transform.position);
+        }
 
         Debug.Log(isCorrect
             ? $"Correcto: {data.Id} en {acceptedCategoryId}. +{points}"
