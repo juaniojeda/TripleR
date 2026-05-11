@@ -1,0 +1,43 @@
+{
+ "ProjectInfo": {
+  "Project": {
+   "Name": "TripleR_WwiseProject",
+   "GUID": "{E3EF87EB-A2A1-4E6A-B75B-F148D0B46E60}",
+   "Generator": "2025.1.7.9143"
+  },
+  "CacheRoot": "../.cache",
+  "Platforms": [
+   {
+    "Name": "Android",
+    "GUID": "{812E7153-A45B-405D-A21C-FEBC47065D90}",
+    "BasePlatform": "Android",
+    "BasePlatformGUID": "{A2D401DE-B8B6-4FEB-8142-137C34D507CA}",
+    "Path": "Android"
+   },
+   {
+    "Name": "Mac",
+    "GUID": "{4FFA191E-C962-4EFB-B1D2-8A66C14DB5B3}",
+    "BasePlatform": "Mac",
+    "BasePlatformGUID": "{9C6217D5-DD11-4795-87C1-6CE02853C540}",
+    "Path": "Mac"
+   },
+   {
+    "Name": "Windows",
+    "GUID": "{D60465C1-8B6C-4D83-95C0-E1C40640F048}",
+    "BasePlatform": "Windows",
+    "BasePlatformGUID": "{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}",
+    "Path": "Windows"
+   }
+  ],
+  "Languages": [
+   {
+    "Name": "English(US)",
+    "Id": "684519430",
+    "GUID": "{43DD929C-D49A-4841-A514-04060148B15B}",
+    "Default": "true",
+    "UseAsStandIn": "true"
+   }
+  ],
+  "FileHash": "{BEE8E678-AE0A-A96A-05F4-BA824BF5C07A}"
+ }
+}

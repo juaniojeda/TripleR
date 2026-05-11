@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3986672242",
+    "Type": "Event",
+    "GUID": "{C753F488-054D-44A3-B36B-515653255848}",
+    "Language": "SFX",
+    "Hash": "{5457A86E-8BD1-51C7-BDA1-84C69F3C6A5A}",
+    "ObjectPath": "Play_Classify_Wrong",
+    "ShortName": "Play_Classify_Wrong",
+    "Path": "Event/Play_Classify_Wrong.bnk",
+    "Media": [
+     {
+      "Id": "90081252",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "u_31vnwfmzt6-error-126627.wav",
+      "Path": "Media/90081252.wem",
+      "CachePath": "56/{564E1C0D-799C-437C-A304-235CACB7E57D}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3986672242",
+      "Name": "Play_Classify_Wrong",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Classify_Wrong",
+      "GUID": "{C753F488-054D-44A3-B36B-515653255848}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.6195692",
+      "DurationMax": "1.6195692",
+      "MediaRefs": [
+       {
+        "Id": "90081252"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{E2D83000-FD67-5D96-245C-B3D88D98E495}"
+ }
+}

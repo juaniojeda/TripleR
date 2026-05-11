@@ -8,6 +8,10 @@ public sealed class ClassificationContainer : MonoBehaviour
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private bool returnToPoolAfterClassify = true;
 
+    [Header("Wwise")]
+    [SerializeField] private AK.Wwise.Event correctEvent;
+    [SerializeField] private AK.Wwise.Event wrongEvent;
+
     private void OnTriggerEnter(Collider other)
     {
         Rigidbody rb = other.attachedRigidbody;
@@ -37,6 +41,8 @@ public sealed class ClassificationContainer : MonoBehaviour
         if (scoreManager != null)
             scoreManager.AddScore(points);
 
+        PlayResultSound(isCorrect);
+
         Debug.Log(isCorrect
             ? $"Correcto: {data.Id} en {acceptedCategoryId}. +{points}"
             : $"Incorrecto: {data.Id} no pertenece a {acceptedCategoryId}. {points}");
@@ -44,6 +50,31 @@ public sealed class ClassificationContainer : MonoBehaviour
         if (returnToPoolAfterClassify)
             poolableObject.ReturnToPool();
     }
+
+    private void PlayResultSound(bool isCorrect)
+    {
+        AK.Wwise.Event selectedEvent = isCorrect ? correctEvent : wrongEvent;
+
+        if (selectedEvent == null || !selectedEvent.IsValid())
+        {
+            Debug.LogWarning("Evento Wwise no asignado o inválido.");
+            return;
+        }
+
+        Debug.Log(isCorrect ? "Sonido correcto Wwise" : "Sonido incorrecto Wwise");
+
+        selectedEvent.Post(gameObject);
+    }
+
+    //private void PlayResultSound(bool isCorrect)
+    //{
+    //    AK.Wwise.Event selectedEvent = isCorrect ? correctEvent : wrongEvent;
+
+    //    if (selectedEvent == null || !selectedEvent.IsValid())
+    //        return;
+
+    //    selectedEvent.Post(gameObject);
+    //}
 
     private bool IsCorrectCategory(PoolItemData data)
     {
