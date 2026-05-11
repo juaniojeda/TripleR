@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{C1055783-0926-4705-BEC0-6D301226F910}" SchemaVersion="133">
+	<Containers>
+		<WorkUnit Name="Default Work Unit" ID="{C1055783-0926-4705-BEC0-6D301226F910}" PersistMode="Standalone">
+			<ChildrenList>
+				<Sound Name="Play_Classify_Correct" ID="{AF5DB148-DF9E-4C76-B6E6-DE7576473965}" ShortID="622968669">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5D00EED7-2DF6-4AAB-872F-CF9DCC5D4E7E}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F59DA06A-B00C-4F2F-BB96-10557C1056B2}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Play_Classify_Correct" ID="{C9B8E283-824B-4C7A-9A88-9CF257CDCCB9}">
+							<Language>SFX</Language>
+							<AudioFile>freesound_community-correct-choice-43861.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="617434377"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Play_Classify_Correct" ID="{C9B8E283-824B-4C7A-9A88-9CF257CDCCB9}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Play_Classify_Wrong" ID="{B4D7B802-96A2-45A3-8228-1CE663960CFD}" ShortID="889074172">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5D00EED7-2DF6-4AAB-872F-CF9DCC5D4E7E}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{F59DA06A-B00C-4F2F-BB96-10557C1056B2}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Play_Classify_Wrong" ID="{65F7DB6A-B2C7-4709-A43E-0D078DD27C61}">
+							<Language>SFX</Language>
+							<AudioFile>u_31vnwfmzt6-error-126627.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="90081252"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Play_Classify_Wrong" ID="{65F7DB6A-B2C7-4709-A43E-0D078DD27C61}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</Containers>
+</WwiseDocument>
