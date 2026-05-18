@@ -26,9 +26,6 @@ public sealed class ScoreManager : MonoBehaviour
     [SerializeField] private float shakeMagnitude = 8f;
     [SerializeField] private float shakeDuration = 0.35f;
 
-    [Header("Planeta")]
-    [SerializeField] private PlanetaManager planeta;
-
     private int currentScore;
     private float currentTime;
     private bool isTimerRunning;
@@ -99,9 +96,6 @@ public sealed class ScoreManager : MonoBehaviour
         PlayerProfile.TrySaveBestScore(currentScore);
 
         RefreshScoreUI();
-
-        if (planeta != null)
-            planeta.NotificarCambioScore(amount);
 
         if (scoreText == null)
             return;
