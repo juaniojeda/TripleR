@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{6540D29C-BEA8-426E-B8AE-3B8F761BBB8D}" SchemaVersion="133">
+	<Events>
+		<WorkUnit Name="Default Work Unit" ID="{6540D29C-BEA8-426E-B8AE-3B8F761BBB8D}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_Classify_Correct" ID="{ABF0D3B2-7DE8-413D-8C40-DC90AB532536}">
+					<ChildrenList>
+						<Action Name="" ID="{810224FC-0361-4195-996B-DD0569CA0F78}" ShortID="686774815">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_Classify_Correct" ID="{AF5DB148-DF9E-4C76-B6E6-DE7576473965}" WorkUnitID="{C1055783-0926-4705-BEC0-6D301226F910}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Classify_Wrong" ID="{C753F488-054D-44A3-B36B-515653255848}">
+					<ChildrenList>
+						<Action Name="" ID="{D0F5B8FC-8B1D-489A-B440-D221F4E3A5AC}" ShortID="25982010">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_Classify_Wrong" ID="{B4D7B802-96A2-45A3-8228-1CE663960CFD}" WorkUnitID="{C1055783-0926-4705-BEC0-6D301226F910}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
