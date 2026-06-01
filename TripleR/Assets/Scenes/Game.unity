@@ -2161,6 +2161,7 @@ MonoBehaviour:
   timeText: {fileID: 1785937967}
   initialTime: 60
   secondsPerPoint: 0.2
+  pointsPerCoin: 30
   OnTimeOut:
     m_PersistentCalls:
       m_Calls:
