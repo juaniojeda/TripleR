@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5019471fb2174e5c852ecd4047163007, type: 3}
   m_Name: HandInteractionProfile Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Hand Interaction Profile
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.handinteraction
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a24be4b5ebfe5f4d8ed1de9b25cb7aa, type: 3}
   m_Name: HandCommonPosesInteraction Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Hand Interaction Poses
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.handinteractionposes
@@ -609,6 +609,7 @@ MonoBehaviour:
   - {fileID: 4200062531568478627}
   - {fileID: 5468928064518207026}
   - {fileID: -5366431294513621646}
+  - {fileID: -521431093419166144}
   - {fileID: -6050910043644311243}
   - {fileID: -5880652139359144403}
   customLoaderName: 
@@ -640,6 +641,28 @@ MonoBehaviour:
   featureIdInternal: com.unity.openxr.feature.input.eyetracking
   openxrExtensionStrings: XR_EXT_eye_gaze_interaction
   company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &-521431093419166144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61726edca15cc5c4d8faab9a8a3b58c0, type: 3}
+  m_Name: AkWwiseOpenXRMotionFeature Standalone
+  m_EditorClassIdentifier: 
+  m_enabled: 0
+  nameUi: Wwise OpenXR Motion
+  version: 1.0.0
+  featureIdInternal: com.audiokinetic.wwise.openxr.motion
+  openxrExtensionStrings: XR_FB_haptic_pcm
+  company: Audiokinetic
   priority: 0
   targetOpenXRApiVersion: 
   required: 0
@@ -694,7 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f028123e2efe1d443875bc7609b4a98b, type: 3}
   m_Name: PalmPoseInteraction Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Palm Pose
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.palmpose
@@ -905,6 +928,28 @@ MonoBehaviour:
   targetOpenXRApiVersion: 
   required: 0
   customRuntimeLoaderName: 
+--- !u!114 &2579953526460172644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61726edca15cc5c4d8faab9a8a3b58c0, type: 3}
+  m_Name: AkWwiseOpenXRMotionFeature Android
+  m_EditorClassIdentifier: 
+  m_enabled: 0
+  nameUi: Wwise OpenXR Motion
+  version: 1.0.0
+  featureIdInternal: com.audiokinetic.wwise.openxr.motion
+  openxrExtensionStrings: XR_FB_haptic_pcm
+  company: Audiokinetic
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &2772688257010109139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -917,7 +962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b213d3e3c7f3109449eb46a4c8ee42f0, type: 3}
   m_Name: XrPerformanceSettingsFeature Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: XR Performance Settings
   version: 1.0.0
   featureIdInternal: com.unity.openxr.feature.extension.performance_settings
@@ -1053,6 +1098,7 @@ MonoBehaviour:
   - {fileID: 1820260261033923992}
   - {fileID: 130059564028396134}
   - {fileID: 1021365271333976207}
+  - {fileID: 2579953526460172644}
   - {fileID: 2772688257010109139}
   - {fileID: 8452131531964847060}
   customLoaderName: 
@@ -1401,7 +1447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a75d1f5ff90154ea2a8e58222a1f59, type: 3}
   m_Name: FoveatedRenderingFeature Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Foveated Rendering
   version: 1
   featureIdInternal: com.unity.openxr.feature.foveatedrendering

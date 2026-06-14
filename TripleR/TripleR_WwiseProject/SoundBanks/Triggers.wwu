@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{0972A400-C4B2-4256-829F-136C13852A70}" SchemaVersion="133">
+	<SoundBanks>
+		<WorkUnit Name="Triggers" ID="{0972A400-C4B2-4256-829F-136C13852A70}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="New_SoundBank" ID="{E88D2247-28A9-4A58-BC02-1778E9F666B8}">
+					<ObjectInclusionList/>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>
