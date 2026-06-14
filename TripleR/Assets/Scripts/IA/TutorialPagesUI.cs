@@ -1,12 +1,12 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TutorialPagesUI : MonoBehaviour
 {
-    [Header("Textos normales de Unity")]
-    [SerializeField] private Text titleText;
-    [SerializeField] private Text bodyText;
-    [SerializeField] private Text pageCounterText;
+    [Header("Textos TextMeshPro")]
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private TextMeshProUGUI bodyText;
+    [SerializeField] private TextMeshProUGUI pageCounterText;
 
     [Header("Botones")]
     [SerializeField] private GameObject previousButton;
