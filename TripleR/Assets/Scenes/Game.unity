@@ -2659,8 +2659,28 @@ MonoBehaviour:
   timeText: {fileID: 1785937967}
   initialTime: 60
   secondsPerPoint: 0.2
+  correctPoints: 10
+  wrongPoints: 5
+  comboStep: 3
+  comboMultiplierStep: 0.5
+  maxComboMultiplier: 3
   pointsPerCoin: 30
-  OnTimeOut:
+  OnWin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 141408475}
+        m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
+        m_MethodName: CambiarEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: WinScene
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnLose:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 141408475}
@@ -31958,6 +31978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolManager: {fileID: 1693522592}
+  scoreManager: {fileID: 74926006}
   spawnableItems:
   - {fileID: 11400000, guid: 2955ff129035e0e4da50e4fc9b77f8e0, type: 2}
   - {fileID: 11400000, guid: a92213f22a9cccb4483c00e57c63f7a3, type: 2}
