@@ -2,7 +2,7 @@ using UnityEngine;
 
 public sealed class LicenseControlledObject : MonoBehaviour
 {
-    [SerializeField] private string licenseId;
+    [SerializeField] private RecyclingLicenseData license;
     [SerializeField] private GameObject targetObject;
 
     private void Awake()
@@ -10,17 +10,24 @@ public sealed class LicenseControlledObject : MonoBehaviour
         Apply();
     }
 
-    private void OnEnable()
-    {
-        Apply();
-    }
-
     public void Apply()
     {
-        if (targetObject == null)
+        if (license == null)
+        {
+            Debug.LogError($"{name}: No tiene licencia asignada.");
             return;
+        }
 
-        bool unlocked = PlayerProfile.HasLicense(licenseId);
+        if (targetObject == null)
+        {
+            Debug.LogError($"{name}: No tiene targetObject asignado.");
+            return;
+        }
+
+        bool unlocked = PlayerProfile.HasLicense(license.LicenseId);
+
+        Debug.Log($"{name}: licencia {license.LicenseId} comprada = {unlocked}");
+
         targetObject.SetActive(unlocked);
     }
 }
