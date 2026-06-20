@@ -15,4 +15,4 @@ MonoBehaviour:
   licenseId: 5
   price: 5
   unlockedItems:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: ea20044251c5a194dacf5bac5714825d, type: 2}

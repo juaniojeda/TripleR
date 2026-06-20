@@ -35201,8 +35201,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2955ff129035e0e4da50e4fc9b77f8e0, type: 2}
   - {fileID: 11400000, guid: a92213f22a9cccb4483c00e57c63f7a3, type: 2}
   unlockedLicenses:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 067feb45f3f6c1141b251b0a09488210, type: 2}
+  - {fileID: 11400000, guid: eb10a5b716dc2f14288bd604fa266db1, type: 2}
   spawnPoints:
   - {fileID: 92737790}
   - {fileID: 12994688}
@@ -35225,6 +35225,8 @@ MonoBehaviour:
   poolItems:
   - {fileID: 11400000, guid: 2955ff129035e0e4da50e4fc9b77f8e0, type: 2}
   - {fileID: 11400000, guid: a92213f22a9cccb4483c00e57c63f7a3, type: 2}
+  - {fileID: 11400000, guid: ea20044251c5a194dacf5bac5714825d, type: 2}
+  - {fileID: 11400000, guid: 7fa19f1035bc75f458390870131205ff, type: 2}
   poolRoot: {fileID: 739462004}
 --- !u!4 &1693522593
 Transform:
