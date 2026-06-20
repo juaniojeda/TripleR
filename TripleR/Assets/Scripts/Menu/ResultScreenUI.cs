@@ -52,7 +52,7 @@ public sealed class ResultScreenUI : MonoBehaviour
         SetText(correctText, correct.ToString());
         SetText(errorText, errors.ToString());
         SetText(effectivenessText, $"{effectiveness:0.#}%");
-        SetText(starsText, BuildStarsText(stars));
+        SetText(starsText, Mathf.Clamp(stars, 1, 5).ToString());
         SetText(coinsText, coins.ToString());
         SetText(performanceLabelText, label);
     }
