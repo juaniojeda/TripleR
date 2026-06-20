@@ -1,17 +1,29 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class ObjectSpawner : MonoBehaviour
 {
+    [Header("Pool")]
     [SerializeField] private VRPoolManager poolManager;
+
+    [Header("Items Base")]
     [SerializeField] private PoolItemData[] spawnableItems;
+
+    [Header("Items Desbloqueables")]
+    [SerializeField] private RecyclingLicenseData[] unlockedLicenses;
+
+    [Header("Spawn Points")]
     [SerializeField] private Transform[] spawnPoints;
 
+    [Header("Spawn Settings")]
     [SerializeField, Min(0.1f)] private float spawnInterval = 2f;
     [SerializeField] private bool spawnOnStart = true;
 
     [SerializeField] private bool randomItem = true;
     [SerializeField] private bool randomPoint = true;
+
+    private readonly List<PoolItemData> activeItems = new List<PoolItemData>(16);
 
     private Coroutine spawnRoutine;
     private int currentItemIndex;
@@ -19,6 +31,8 @@ public sealed class ObjectSpawner : MonoBehaviour
 
     private void OnEnable()
     {
+        RebuildActiveItems();
+
         if (spawnOnStart)
             StartSpawning();
     }
@@ -26,6 +40,31 @@ public sealed class ObjectSpawner : MonoBehaviour
     private void OnDisable()
     {
         StopSpawning();
+    }
+
+    public void RebuildActiveItems()
+    {
+        activeItems.Clear();
+
+        AddItems(spawnableItems);
+
+        if (unlockedLicenses != null)
+        {
+            for (int i = 0; i < unlockedLicenses.Length; i++)
+            {
+                RecyclingLicenseData license = unlockedLicenses[i];
+
+                if (license == null)
+                    continue;
+
+                if (!PlayerProfile.HasLicense(license.LicenseId))
+                    continue;
+
+                AddItems(license.UnlockedItems);
+            }
+        }
+
+        currentItemIndex = 0;
     }
 
     public void StartSpawning()
@@ -74,22 +113,34 @@ public sealed class ObjectSpawner : MonoBehaviour
         }
     }
 
+    private void AddItems(PoolItemData[] items)
+    {
+        if (items == null)
+            return;
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null)
+                activeItems.Add(items[i]);
+        }
+    }
+
     private PoolItemData GetNextItem()
     {
-        if (spawnableItems == null || spawnableItems.Length == 0)
+        if (activeItems.Count == 0)
             return null;
 
         if (randomItem)
         {
-            int index = Random.Range(0, spawnableItems.Length);
-            return spawnableItems[index];
+            int index = Random.Range(0, activeItems.Count);
+            return activeItems[index];
         }
 
-        PoolItemData itemData = spawnableItems[currentItemIndex];
+        PoolItemData itemData = activeItems[currentItemIndex];
 
         currentItemIndex++;
 
-        if (currentItemIndex >= spawnableItems.Length)
+        if (currentItemIndex >= activeItems.Count)
             currentItemIndex = 0;
 
         return itemData;
