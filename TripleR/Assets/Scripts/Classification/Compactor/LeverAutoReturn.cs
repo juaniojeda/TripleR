@@ -3,88 +3,91 @@ using UnityEngine;
 
 public class LeverAutoReturn : MonoBehaviour
 {
+    [Header("Referencias (Estilo Meta)")]
+    [Tooltip("El objeto que se va a mover. Si está vacío, moverá el objeto actual.")]
+    [SerializeField] private Transform _targetTransform;
+
     [Header("Configuración de Retorno")]
-    [Tooltip("Tiempo en segundos a esperar tras soltar la palanca")]
-    [SerializeField] private float delayInSeconds = 1f;
-    [Tooltip("Velocidad del movimiento de regreso (mayor = más rápido)")]
-    [SerializeField] private float returnSpeed = 5f;
+    [SerializeField] private float returnSpeed = 8f;
+    [SerializeField] private float delaySeconds = 1f;
 
-    [Header("Destino Exacto (Local)")]
-    [Tooltip("Posición exacta a la que debe volver respecto al pivote padre")]
+    [Header("Destino Local Exacto")]
+    [Tooltip("La posición local a la que debe volver respecto a su padre (el Pivot)")]
     [SerializeField] private Vector3 targetLocalPosition = new Vector3(0f, 0.5f, 0f);
-    [Tooltip("Rotación exacta a la que debe volver")]
-    [SerializeField] private Vector3 targetLocalRotation = Vector3.zero; // 0,0,0
-
-    // Umbrales para evitar cálculos infinitos
-    private const float PositionThreshold = 0.001f;
-    private const float RotationThreshold = 0.1f;
+    [Tooltip("La rotación local a la que debe volver respecto a su padre")]
+    [SerializeField] private Vector3 targetLocalEuler = Vector3.zero;
 
     private bool _isGrabbed = false;
-    private Coroutine _returnCoroutine;
-    private WaitForSeconds _waitForDelay;
+    private Coroutine _returnRoutine;
+    private WaitForSeconds _delayInstruction;
 
     private void Awake()
     {
-        _waitForDelay = new WaitForSeconds(delayInSeconds);
-    }
+        // Caché del tiempo para evitar garbage collection (Zero allocation)
+        _delayInstruction = new WaitForSeconds(delaySeconds);
 
-    // Se conecta en el inspector al "When Select" del Pointable Wrapper
-    public void OnLeverGrabbed()
-    {
-        _isGrabbed = true;
-
-        if (_returnCoroutine != null)
+        // Si no asignamos un Target, usa el propio objeto (Igual que en Grabbable.cs)
+        if (_targetTransform == null)
         {
-            StopCoroutine(_returnCoroutine);
-            _returnCoroutine = null;
+            _targetTransform = transform;
         }
     }
 
-    // Se conecta en el inspector al "When Unselect" del Pointable Wrapper
-    public void OnLeverReleased()
+    // -> Conectar al evento "When Select" de Meta
+    public void BeginInteraction()
     {
-        _isGrabbed = false;
-        _returnCoroutine = StartCoroutine(ReturnToZeroRoutine());
+        _isGrabbed = true;
+        if (_returnRoutine != null)
+        {
+            StopCoroutine(_returnRoutine);
+            _returnRoutine = null;
+        }
     }
 
-    private IEnumerator ReturnToZeroRoutine()
+    // -> Conectar al evento "When Unselect" de Meta
+    public void EndInteraction()
     {
-        yield return _waitForDelay;
+        _isGrabbed = false;
+        _returnRoutine = StartCoroutine(TransformRoutine());
+    }
 
-        // Transformamos el Vector3 a Quaternion para que Unity pueda calcular la rotación suave
-        Quaternion targetRot = Quaternion.Euler(targetLocalRotation);
+    // Esta corrutina actúa como el "UpdateTransform()" del ITransformer de Meta
+    private IEnumerator TransformRoutine()
+    {
+        yield return _delayInstruction;
+
+        Quaternion targetRotation = Quaternion.Euler(targetLocalEuler);
 
         while (!_isGrabbed)
         {
-            // 1. Interpolamos la Posición hacia (0, 0.5, 0)
-            transform.localPosition = Vector3.Lerp(
-                transform.localPosition,
+            // 1. Interpolamos la posición local hacia 0, 0.5, 0
+            _targetTransform.localPosition = Vector3.Lerp(
+                _targetTransform.localPosition,
                 targetLocalPosition,
                 Time.deltaTime * returnSpeed
             );
 
-            // 2. Interpolamos la Rotación hacia (0, 0, 0)
-            transform.localRotation = Quaternion.Lerp(
-                transform.localRotation,
-                targetRot,
+            // 2. Interpolamos la rotación local hacia 0, 0, 0
+            _targetTransform.localRotation = Quaternion.Lerp(
+                _targetTransform.localRotation,
+                targetRotation,
                 Time.deltaTime * returnSpeed
             );
 
-            // 3. Verificamos si estamos lo suficientemente cerca del objetivo
-            float dist = Vector3.Distance(transform.localPosition, targetLocalPosition);
-            float angle = Quaternion.Angle(transform.localRotation, targetRot);
+            // 3. Condición de parada para apagar el cálculo (Ahorro de CPU)
+            float posDiff = Vector3.Distance(_targetTransform.localPosition, targetLocalPosition);
+            float rotDiff = Quaternion.Angle(_targetTransform.localRotation, targetRotation);
 
-            if (dist < PositionThreshold && angle < RotationThreshold)
+            if (posDiff < 0.001f && rotDiff < 0.1f)
             {
-                // Forzamos los valores exactos para cerrar el ciclo perfectamente
-                transform.localPosition = targetLocalPosition;
-                transform.localRotation = targetRot;
+                _targetTransform.localPosition = targetLocalPosition;
+                _targetTransform.localRotation = targetRotation;
                 break;
             }
 
-            yield return null;
+            yield return null; // Espera al siguiente frame
         }
 
-        _returnCoroutine = null;
+        _returnRoutine = null;
     }
 }
