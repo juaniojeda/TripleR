@@ -12,20 +12,25 @@ public class SimplePatrolAI : MonoBehaviour
         Finished
     }
 
+    [Header("Movimiento")]
     [SerializeField] private Transform pointA;
     [SerializeField] private Transform pointB;
     [SerializeField] private float moveSpeed = 1.5f;
     [SerializeField] private float arriveDistance = 0.1f;
     [SerializeField] private float rotationSpeed = 8f;
 
-    [SerializeField] private GameObject worldCanvas;
-    [SerializeField] private float canvasTime = 3f;
+    [Header("Tutorial")]
+    [SerializeField] private TutorialPagesUI tutorialUI;
     [SerializeField] private float startDelay = 5f;
+
+    [Header("Animaciones")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string isMovingParameter = "IsMoving";
+    [SerializeField] private string isTalkingParameter = "IsTalking";
 
     private AIState state;
     private Vector3 homePosition;
     private Transform currentTarget;
-    private Coroutine interactionRoutine;
     private Coroutine startRoutine;
 
     private void Awake()
@@ -34,8 +39,11 @@ public class SimplePatrolAI : MonoBehaviour
         currentTarget = pointB;
         state = AIState.WaitingToStart;
 
-        if (worldCanvas != null)
-            worldCanvas.SetActive(false);
+        if (tutorialUI != null)
+            tutorialUI.gameObject.SetActive(false);
+
+        SetMoving(false);
+        SetTalking(false);
     }
 
     private void Start()
@@ -68,10 +76,7 @@ public class SimplePatrolAI : MonoBehaviour
             startRoutine = null;
         }
 
-        if (interactionRoutine != null)
-            StopCoroutine(interactionRoutine);
-
-        interactionRoutine = StartCoroutine(ShowCanvasRoutine());
+        ShowTutorial();
     }
 
     private IEnumerator StartDelayRoutine()
@@ -79,33 +84,55 @@ public class SimplePatrolAI : MonoBehaviour
         yield return new WaitForSeconds(startDelay);
 
         if (state == AIState.WaitingToStart)
+        {
             state = AIState.Patrol;
+            SetTalking(false);
+            SetMoving(true);
+        }
 
         startRoutine = null;
     }
 
-    private IEnumerator ShowCanvasRoutine()
+    private void ShowTutorial()
     {
         state = AIState.ShowingCanvas;
 
-        if (worldCanvas != null)
-            worldCanvas.SetActive(true);
+        SetMoving(false);
+        SetTalking(true);
 
-        yield return new WaitForSeconds(canvasTime);
+        if (tutorialUI != null)
+        {
+            tutorialUI.Open(this);
+        }
+        else
+        {
+            Debug.LogWarning("No asignaste Tutorial UI en el SimplePatrolAI.");
+            SetTalking(false);
+            state = AIState.ReturningHome;
+            SetMoving(true);
+        }
+    }
 
-        if (worldCanvas != null)
-            worldCanvas.SetActive(false);
+    public void FinishTutorial()
+    {
+        if (state != AIState.ShowingCanvas)
+            return;
 
+        SetTalking(false);
         state = AIState.ReturningHome;
-        interactionRoutine = null;
+        SetMoving(true);
     }
 
     private void Patrol()
     {
         if (pointA == null || pointB == null)
+        {
+            SetMoving(false);
             return;
+        }
 
-        MoveTo(currentTarget.position);
+        bool moved = MoveTo(currentTarget.position);
+        SetMoving(moved);
 
         if (Vector3.Distance(transform.position, currentTarget.position) <= arriveDistance)
             currentTarget = currentTarget == pointA ? pointB : pointA;
@@ -113,23 +140,26 @@ public class SimplePatrolAI : MonoBehaviour
 
     private void ReturnHome()
     {
-        MoveTo(homePosition);
+        bool moved = MoveTo(homePosition);
+        SetMoving(moved);
 
         if (Vector3.Distance(transform.position, homePosition) <= arriveDistance)
         {
             transform.position = homePosition;
             state = AIState.Finished;
+            SetMoving(false);
+            SetTalking(false);
         }
     }
 
-    private void MoveTo(Vector3 targetPosition)
+    private bool MoveTo(Vector3 targetPosition)
     {
         Vector3 currentPosition = transform.position;
         Vector3 direction = targetPosition - currentPosition;
         direction.y = 0f;
 
         if (direction.sqrMagnitude <= 0.001f)
-            return;
+            return false;
 
         transform.position = Vector3.MoveTowards(
             currentPosition,
@@ -138,13 +168,33 @@ public class SimplePatrolAI : MonoBehaviour
         );
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
+
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
             targetRotation,
             rotationSpeed * Time.deltaTime
         );
+
+        return true;
+    }
+
+    private void SetMoving(bool value)
+    {
+        if (animator == null)
+            return;
+
+        animator.SetBool(isMovingParameter, value);
+    }
+
+    private void SetTalking(bool value)
+    {
+        if (animator == null)
+            return;
+
+        animator.SetBool(isTalkingParameter, value);
     }
 }
+
 //using System.Collections;
 //using UnityEngine;
 
@@ -152,34 +202,42 @@ public class SimplePatrolAI : MonoBehaviour
 //{
 //    private enum AIState
 //    {
+//        WaitingToStart,
 //        Patrol,
 //        ShowingCanvas,
-//        ReturningHome
+//        ReturningHome,
+//        Finished
 //    }
 
-//    [Header("Patrulla")]
+//    [Header("Movimiento")]
 //    [SerializeField] private Transform pointA;
 //    [SerializeField] private Transform pointB;
 //    [SerializeField] private float moveSpeed = 1.5f;
 //    [SerializeField] private float arriveDistance = 0.1f;
 //    [SerializeField] private float rotationSpeed = 8f;
 
-//    [Header("Canvas")]
-//    [SerializeField] private GameObject worldCanvas;
-//    [SerializeField] private float canvasTime = 10f;
+//    [Header("Tutorial")]
+//    [SerializeField] private TutorialPagesUI tutorialUI;
+//    [SerializeField] private float startDelay = 5f;
 
 //    private AIState state;
 //    private Vector3 homePosition;
 //    private Transform currentTarget;
-//    private Coroutine interactionRoutine;
+//    private Coroutine startRoutine;
 
 //    private void Awake()
 //    {
 //        homePosition = transform.position;
 //        currentTarget = pointB;
+//        state = AIState.WaitingToStart;
 
-//        if (worldCanvas != null)
-//            worldCanvas.SetActive(false);
+//        if (tutorialUI != null)
+//            tutorialUI.gameObject.SetActive(false);
+//    }
+
+//    private void Start()
+//    {
+//        startRoutine = StartCoroutine(StartDelayRoutine());
 //    }
 
 //    private void Update()
@@ -198,29 +256,49 @@ public class SimplePatrolAI : MonoBehaviour
 
 //    public void DetectPlayer()
 //    {
-//        if (state != AIState.Patrol)
+//        if (state == AIState.ShowingCanvas || state == AIState.ReturningHome || state == AIState.Finished)
 //            return;
 
-//        if (interactionRoutine != null)
-//            StopCoroutine(interactionRoutine);
+//        if (startRoutine != null)
+//        {
+//            StopCoroutine(startRoutine);
+//            startRoutine = null;
+//        }
 
-//        interactionRoutine = StartCoroutine(ShowCanvasRoutine());
+//        ShowTutorial();
 //    }
 
-//    private IEnumerator ShowCanvasRoutine()
+//    private IEnumerator StartDelayRoutine()
+//    {
+//        yield return new WaitForSeconds(startDelay);
+
+//        if (state == AIState.WaitingToStart)
+//            state = AIState.Patrol;
+
+//        startRoutine = null;
+//    }
+
+//    private void ShowTutorial()
 //    {
 //        state = AIState.ShowingCanvas;
 
-//        if (worldCanvas != null)
-//            worldCanvas.SetActive(true);
+//        if (tutorialUI != null)
+//        {
+//            tutorialUI.Open(this);
+//        }
+//        else
+//        {
+//            Debug.LogWarning("No asignaste Tutorial UI en el SimplePatrolAI.");
+//            state = AIState.ReturningHome;
+//        }
+//    }
 
-//        yield return new WaitForSeconds(canvasTime);
-
-//        if (worldCanvas != null)
-//            worldCanvas.SetActive(false);
+//    public void FinishTutorial()
+//    {
+//        if (state != AIState.ShowingCanvas)
+//            return;
 
 //        state = AIState.ReturningHome;
-//        interactionRoutine = null;
 //    }
 
 //    private void Patrol()
@@ -241,8 +319,7 @@ public class SimplePatrolAI : MonoBehaviour
 //        if (Vector3.Distance(transform.position, homePosition) <= arriveDistance)
 //        {
 //            transform.position = homePosition;
-//            currentTarget = pointB;
-//            state = AIState.Patrol;
+//            state = AIState.Finished;
 //        }
 //    }
 
@@ -262,6 +339,7 @@ public class SimplePatrolAI : MonoBehaviour
 //        );
 
 //        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
 //        transform.rotation = Quaternion.Slerp(
 //            transform.rotation,
 //            targetRotation,
