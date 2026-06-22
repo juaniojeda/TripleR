@@ -7,19 +7,23 @@ public sealed class PoolableObject : MonoBehaviour
 
     private VRPoolManager poolManager;
     private Rigidbody rb;
+    private WasteReleaseMagnetListener magnetListener;
 
     public PoolItemData Data => data;
     public string Id => data != null ? data.Id : string.Empty;
+    public Rigidbody Rigidbody => rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        EnsureMagnetListener();
     }
 
     public void Initialize(VRPoolManager manager, PoolItemData itemData)
     {
         poolManager = manager;
         data = itemData;
+        EnsureMagnetListener();
     }
 
     public void PrepareForSpawn(Vector3 position, Quaternion rotation)
@@ -33,6 +37,7 @@ public sealed class PoolableObject : MonoBehaviour
         }
 
         gameObject.SetActive(true);
+        magnetListener?.ResetForSpawn();
     }
 
     public void ReturnToPool()
@@ -48,12 +53,26 @@ public sealed class PoolableObject : MonoBehaviour
 
     public void Deactivate()
     {
+        magnetListener?.ResetForPool();
+
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            rb.useGravity = true;
         }
 
         gameObject.SetActive(false);
+    }
+
+    private void EnsureMagnetListener()
+    {
+        if (magnetListener == null)
+            magnetListener = GetComponent<WasteReleaseMagnetListener>();
+
+        if (magnetListener == null)
+            magnetListener = gameObject.AddComponent<WasteReleaseMagnetListener>();
+
+        magnetListener.Initialize(this);
     }
 }

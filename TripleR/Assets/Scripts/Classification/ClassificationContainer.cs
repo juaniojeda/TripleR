@@ -14,6 +14,8 @@ public sealed class ClassificationContainer : MonoBehaviour
     [SerializeField] private AK.Wwise.Event correctEvent;
     [SerializeField] private AK.Wwise.Event wrongEvent;
 
+    public string AcceptedCategoryId => acceptedCategoryId;
+
     private void OnTriggerEnter(Collider other)
     {
         Rigidbody rb = other.attachedRigidbody;
