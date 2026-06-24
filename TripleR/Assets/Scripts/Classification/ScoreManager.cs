@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public sealed class ScoreManager : MonoBehaviour
 {
+    [SerializeField] private TutorialPagesUI tutorialUI;
+
     [Header("UI - Puntuacion y Estrellas")]
     [SerializeField] private Text scoreText;
     [SerializeField] private bool clampToZero = true;
@@ -253,5 +255,23 @@ public sealed class ScoreManager : MonoBehaviour
 
         PerformanceResult result = PerformanceEvaluator.Evaluate(correctCount, errorCount, totalWasteGenerated);
         hudView.RefreshStars(result.Stars);
+    }
+
+    private void OnEnable()
+    {
+        if (tutorialUI != null)
+            tutorialUI.OnTutorialFinished += IniciarReloj;
+    }
+
+    private void OnDisable()
+    {
+        if (tutorialUI != null)
+            tutorialUI.OnTutorialFinished -= IniciarReloj;
+    }
+
+    private void IniciarReloj()
+    {
+        if (scoreTimer != null)
+            scoreTimer.TurnOn();
     }
 }

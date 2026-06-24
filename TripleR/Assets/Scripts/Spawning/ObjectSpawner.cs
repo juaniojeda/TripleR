@@ -4,6 +4,8 @@ using UnityEngine;
 
 public sealed class ObjectSpawner : MonoBehaviour
 {
+    [SerializeField] private TutorialPagesUI tutorialUI;
+
     [Header("Pool")]
     [SerializeField] private VRPoolManager poolManager;
 
@@ -21,7 +23,7 @@ public sealed class ObjectSpawner : MonoBehaviour
 
     [Header("Spawn Settings")]
     [SerializeField, Min(0.1f)] private float spawnInterval = 2f;
-    [SerializeField] private bool spawnOnStart = true;
+    [SerializeField] private bool spawnOnStart = false;
 
     [SerializeField] private bool randomItem = true;
     [SerializeField] private bool randomPoint = true;
@@ -38,11 +40,27 @@ public sealed class ObjectSpawner : MonoBehaviour
 
         if (spawnOnStart)
             StartSpawning();
+
+        if (tutorialUI != null)
+        {
+            tutorialUI.OnTutorialFinished += TurnOn;
+        }
     }
 
     private void OnDisable()
     {
         StopSpawning();
+
+        if (tutorialUI != null)
+        {
+            tutorialUI.OnTutorialFinished -= TurnOn;
+        }
+    }
+
+    public void TurnOn()
+    {
+        spawnOnStart = true;
+        StartSpawning();
     }
 
     public void RebuildActiveItems()
