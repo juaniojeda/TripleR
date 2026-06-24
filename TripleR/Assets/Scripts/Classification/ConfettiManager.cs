@@ -16,7 +16,6 @@ public class ConfettiManager : MonoBehaviour
     {
         container = GetComponent<ClassificationContainer>();
 
-        // Inicializamos el Pool Nativo de Unity
         particlePool = new ObjectPool<PooledParticle>(
             createFunc: CreateParticle,
             actionOnGet: (p) => p.gameObject.SetActive(true),
@@ -30,13 +29,11 @@ public class ConfettiManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // Nos suscribimos al evento del contenedor
         container.OnCorrectClassification += SpawnConfetti;
     }
 
     private void OnDisable()
     {
-        // Nos desuscribimos para evitar fugas de memoria
         container.OnCorrectClassification -= SpawnConfetti;
     }
 
