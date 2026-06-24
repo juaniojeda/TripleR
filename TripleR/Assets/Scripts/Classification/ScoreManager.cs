@@ -1,13 +1,18 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public sealed class ScoreManager : MonoBehaviour
 {
-    [Header("UI - Puntuacion")]
+    [Header("UI - Puntuacion y Estrellas")]
     [SerializeField] private Text scoreText;
     [SerializeField] private bool clampToZero = true;
+    [SerializeField] private Canvas starsCanvas;
+    [SerializeField] private Text starsText;
+
+    [Header("UI - Combos")]
+    [SerializeField] private Canvas comboCanvas;
+    [SerializeField] private Text comboText;
 
     [Header("UI - Temporizador")]
     [SerializeField] private Text timeText;
@@ -39,9 +44,6 @@ public sealed class ScoreManager : MonoBehaviour
     [SerializeField] private float shakeDuration = 0.35f;
 
     private int currentScore;
-    private float currentTime;
-    private bool isTimerRunning;
-    private int lastDisplayedSecond = -1;
     private bool coinsClaimed;
     private bool sessionFinished;
     private int pointCoinsEarnedThisSession;
@@ -51,58 +53,38 @@ public sealed class ScoreManager : MonoBehaviour
     private int currentCombo;
     private float currentMultiplier = 1f;
 
+    private ScoreTimer scoreTimer;
+    private ScoreHudView hudView;
+    private ScoreTextAnimator scoreTextAnimator;
+    private bool initialized;
+
     public int CurrentScore => currentScore;
-    public float CurrentTime => currentTime;
+    public float CurrentTime => scoreTimer?.CurrentTime ?? initialTime;
     public int CorrectCount => correctCount;
     public int ErrorCount => errorCount;
     public int TotalWasteGenerated => totalWasteGenerated;
     public int CurrentCombo => currentCombo;
     public float CurrentMultiplier => currentMultiplier;
 
-    private Vector3 originalScale;
-    private Vector3 originalPosition;
-    private Coroutine activeAnimation;
-
     private void Awake()
     {
-        if (scoreText != null)
-        {
-            originalScale = scoreText.transform.localScale;
-            originalPosition = scoreText.transform.localPosition;
-        }
-
-        currentTime = initialTime;
-        isTimerRunning = true;
-        currentMultiplier = 1f;
-
-        RefreshScoreUI();
-        RefreshTimeUI();
+        EnsureInitialized();
     }
 
     private void Update()
     {
-        if (!isTimerRunning)
+        EnsureInitialized();
+
+        if (scoreTimer == null || !scoreTimer.IsRunning)
             return;
 
-        currentTime -= Time.deltaTime;
+        bool shouldRefreshTime = scoreTimer.Tick(Time.deltaTime, out bool finished);
 
-        if (currentTime <= 0f)
-        {
-            currentTime = 0f;
-            isTimerRunning = false;
+        if (shouldRefreshTime)
+            hudView.RefreshTime(scoreTimer.CurrentTime);
 
-            RefreshTimeUI();
+        if (finished)
             FinishSession();
-            return;
-        }
-
-        int currentSecond = Mathf.CeilToInt(currentTime);
-
-        if (currentSecond != lastDisplayedSecond)
-        {
-            lastDisplayedSecond = currentSecond;
-            RefreshTimeUI();
-        }
     }
 
     public void RegisterWasteGenerated()
@@ -112,56 +94,79 @@ public sealed class ScoreManager : MonoBehaviour
 
     public void RegisterWasteGenerated(int amount)
     {
+        EnsureInitialized();
+
         if (amount <= 0)
             return;
 
         totalWasteGenerated += amount;
+        RefreshStarsPreview();
     }
 
     public int AddCorrectClassification()
     {
+        return AddCorrectClassification(correctPoints);
+    }
+
+    public int AddCorrectClassification(int basePoints)
+    {
+        EnsureInitialized();
+
         correctCount++;
         currentCombo++;
-        currentMultiplier = CalculateCurrentMultiplier();
+        currentMultiplier = ScoreComboCalculator.Calculate(currentCombo, comboStep, comboMultiplierStep, maxComboMultiplier);
 
-        int points = Mathf.RoundToInt(correctPoints * currentMultiplier);
+        int points = Mathf.RoundToInt(basePoints * currentMultiplier);
         AddScore(points);
+        RefreshStarsPreview();
         return points;
     }
 
     public int AddWrongClassification()
     {
+        return AddWrongClassification(wrongPoints);
+    }
+
+    public int AddWrongClassification(int penaltyPoints)
+    {
+        EnsureInitialized();
+
         errorCount++;
         currentCombo = 0;
         currentMultiplier = 1f;
 
-        int points = -Mathf.Abs(wrongPoints);
+        int points = -Mathf.Abs(penaltyPoints);
         AddScore(points);
+        RefreshStarsPreview();
         return points;
+    }
+
+    public int AddClassificationResult(bool isSuccessful, int correctPointsAmount, int wrongPointsAmount)
+    {
+        return isSuccessful
+            ? AddCorrectClassification(correctPointsAmount)
+            : AddWrongClassification(wrongPointsAmount);
     }
 
     public void AddScore(int amount)
     {
+        EnsureInitialized();
+
         currentScore += amount;
 
         if (clampToZero && currentScore < 0)
             currentScore = 0;
 
-        if (isTimerRunning)
+        if (scoreTimer != null && scoreTimer.IsRunning)
         {
-            currentTime += amount * secondsPerPoint;
-
-            if (currentTime < 0f)
-                currentTime = 0f;
-
-            lastDisplayedSecond = Mathf.CeilToInt(currentTime);
-            RefreshTimeUI();
+            scoreTimer.AddSeconds(amount * secondsPerPoint);
+            hudView.RefreshTime(scoreTimer.CurrentTime);
         }
 
         PlayerProfile.TrySaveBestScore(currentScore);
-        RefreshScoreUI();
-
-        PlayScoreAnimation(amount);
+        hudView.RefreshScore(currentScore);
+        hudView.RefreshCombo(currentCombo, currentMultiplier);
+        scoreTextAnimator.Play(amount, bumpScale, bumpDuration, shakeMagnitude, shakeDuration);
     }
 
     public void SumarPuntos(int amount)
@@ -181,6 +186,8 @@ public sealed class ScoreManager : MonoBehaviour
 
     public int ClaimCoins()
     {
+        EnsureInitialized();
+
         if (coinsClaimed)
             return 0;
 
@@ -197,6 +204,8 @@ public sealed class ScoreManager : MonoBehaviour
 
     private void FinishSession()
     {
+        EnsureInitialized();
+
         if (sessionFinished)
             return;
 
@@ -212,196 +221,37 @@ public sealed class ScoreManager : MonoBehaviour
         PerformanceSessionStorage.UpdateTrashLevel(result.Stars);
         PlayerPrefs.Save();
 
+        hudView.RefreshStars(result.Stars);
+
         if (result.IsWin)
             OnWin?.Invoke();
         else
             OnLose?.Invoke();
     }
 
-    private float CalculateCurrentMultiplier()
+    private void EnsureInitialized()
     {
-        int safeComboStep = Mathf.Max(1, comboStep);
-        float multiplier = 1f + Mathf.Floor(currentCombo / safeComboStep) * comboMultiplierStep;
-        return Mathf.Clamp(multiplier, 1f, maxComboMultiplier);
-    }
-
-    private void RefreshScoreUI()
-    {
-        if (scoreText != null)
-            scoreText.text = $"Puntos: {currentScore}";
-    }
-
-    private void RefreshTimeUI()
-    {
-        if (timeText != null)
-        {
-            int minutes = Mathf.FloorToInt(currentTime / 60f);
-            int seconds = Mathf.FloorToInt(currentTime - minutes * 60);
-            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        }
-    }
-
-    private void PlayScoreAnimation(int amount)
-    {
-        if (scoreText == null)
+        if (initialized)
             return;
 
-        if (activeAnimation != null)
-        {
-            StopCoroutine(activeAnimation);
-            scoreText.transform.localScale = originalScale;
-            scoreText.transform.localPosition = originalPosition;
-        }
+        scoreTimer = new ScoreTimer(initialTime);
+        hudView = new ScoreHudView(scoreText, timeText, starsCanvas, starsText, comboCanvas, comboText);
+        scoreTextAnimator = new ScoreTextAnimator(this, scoreText);
+        currentMultiplier = 1f;
+        initialized = true;
 
-        if (amount > 0)
-            activeAnimation = StartCoroutine(BumpAnimation());
-        else if (amount < 0)
-            activeAnimation = StartCoroutine(ShakeAnimation());
+        hudView.RefreshScore(currentScore);
+        hudView.RefreshTime(scoreTimer.CurrentTime);
+        hudView.RefreshCombo(currentCombo, currentMultiplier);
+        RefreshStarsPreview();
     }
 
-    private IEnumerator BumpAnimation()
+    private void RefreshStarsPreview()
     {
-        float half = bumpDuration * 0.5f;
-        float t = 0f;
+        if (hudView == null)
+            return;
 
-        while (t < half)
-        {
-            t += Time.deltaTime;
-            float progress = t / half;
-            float scale = Mathf.Lerp(1f, bumpScale, Mathf.SmoothStep(0f, 1f, progress));
-            scoreText.transform.localScale = originalScale * scale;
-            yield return null;
-        }
-
-        t = 0f;
-
-        while (t < half)
-        {
-            t += Time.deltaTime;
-            float progress = t / half;
-            float scale = Mathf.Lerp(bumpScale, 1f, Mathf.SmoothStep(0f, 1f, progress));
-            scoreText.transform.localScale = originalScale * scale;
-            yield return null;
-        }
-
-        scoreText.transform.localScale = originalScale;
-        activeAnimation = null;
-    }
-
-    private IEnumerator ShakeAnimation()
-    {
-        float elapsed = 0f;
-
-        while (elapsed < shakeDuration)
-        {
-            elapsed += Time.deltaTime;
-
-            float damping = 1f - elapsed / shakeDuration;
-            float offsetX = Random.Range(-1f, 1f) * shakeMagnitude * damping;
-            float offsetY = Random.Range(-1f, 1f) * shakeMagnitude * damping;
-
-            scoreText.transform.localPosition = originalPosition + new Vector3(offsetX, offsetY, 0f);
-            yield return null;
-        }
-
-        scoreText.transform.localPosition = originalPosition;
-        activeAnimation = null;
-    }
-}
-
-public readonly struct PerformanceResult
-{
-    public PerformanceResult(float effectiveness, int stars, string label, int baseCoins)
-    {
-        Effectiveness = effectiveness;
-        Stars = stars;
-        Label = label;
-        BaseCoins = baseCoins;
-    }
-
-    public float Effectiveness { get; }
-    public int Stars { get; }
-    public string Label { get; }
-    public int BaseCoins { get; }
-    public bool IsWin => Stars >= 3;
-}
-
-public static class PerformanceEvaluator
-{
-    public static PerformanceResult Evaluate(int correctCount, int errorCount, int totalWasteGenerated)
-    {
-        float effectiveness = 0f;
-
-        if (totalWasteGenerated > 0)
-            effectiveness = ((float)(correctCount - errorCount) / totalWasteGenerated) * 100f;
-
-        effectiveness = Mathf.Clamp(effectiveness, 0f, 100f);
-
-        if (effectiveness >= 90f)
-            return new PerformanceResult(effectiveness, 5, "Rendimiento Excelente (Perfecto)", 50);
-
-        if (effectiveness >= 75f)
-            return new PerformanceResult(effectiveness, 4, "Rendimiento Destacado", 40);
-
-        if (effectiveness >= 60f)
-            return new PerformanceResult(effectiveness, 3, "Rendimiento Est\u00e1ndar", 30);
-
-        if (effectiveness >= 40f)
-            return new PerformanceResult(effectiveness, 2, "Rendimiento B\u00e1sico", 20);
-
-        return new PerformanceResult(effectiveness, 1, "Rendimiento Insuficiente", 10);
-    }
-}
-
-public static class PerformanceSessionStorage
-{
-    public const string LastScoreKey = "LastScore";
-    public const string LastCorrectCountKey = "LastCorrectCount";
-    public const string LastErrorCountKey = "LastErrorCount";
-    public const string LastWasteGeneratedKey = "LastWasteGenerated";
-    public const string LastEffectivenessKey = "LastEffectiveness";
-    public const string LastStarsKey = "LastStars";
-    public const string LastPerformanceLabelKey = "LastPerformanceLabel";
-    public const string LastCoinsEarnedKey = "LastCoinsEarned";
-    public const string LastWasWinKey = "LastWasWin";
-    public const string TrashLevelKey = "TrashLevel";
-
-    public static void SaveLastSession(int score, int correctCount, int errorCount, int totalWasteGenerated, PerformanceResult result, int coinsEarned)
-    {
-        PlayerPrefs.SetInt(LastScoreKey, score);
-        PlayerPrefs.SetInt(LastCorrectCountKey, correctCount);
-        PlayerPrefs.SetInt(LastErrorCountKey, errorCount);
-        PlayerPrefs.SetInt(LastWasteGeneratedKey, totalWasteGenerated);
-        PlayerPrefs.SetFloat(LastEffectivenessKey, result.Effectiveness);
-        PlayerPrefs.SetInt(LastStarsKey, result.Stars);
-        PlayerPrefs.SetString(LastPerformanceLabelKey, result.Label);
-        PlayerPrefs.SetInt(LastCoinsEarnedKey, coinsEarned);
-        PlayerPrefs.SetInt(LastWasWinKey, result.IsWin ? 1 : 0);
-    }
-
-    public static void UpdateTrashLevel(int stars)
-    {
-        int currentLevel = PlayerPrefs.GetInt(TrashLevelKey, 0);
-        int delta = GetTrashDelta(stars);
-        PlayerPrefs.SetInt(TrashLevelKey, Mathf.Max(0, currentLevel + delta));
-    }
-
-    private static int GetTrashDelta(int stars)
-    {
-        switch (stars)
-        {
-            case 1:
-                return 3;
-            case 2:
-                return 2;
-            case 3:
-                return -1;
-            case 4:
-                return -2;
-            case 5:
-                return -3;
-            default:
-                return 0;
-        }
+        PerformanceResult result = PerformanceEvaluator.Evaluate(correctCount, errorCount, totalWasteGenerated);
+        hudView.RefreshStars(result.Stars);
     }
 }
