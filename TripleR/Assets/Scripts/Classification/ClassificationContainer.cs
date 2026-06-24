@@ -46,10 +46,12 @@ public sealed class ClassificationContainer : MonoBehaviour
             isSuccessful = isCorrectCategory;
         }
 
-        int points = isSuccessful ? data.CorrectPoints : data.WrongPoints;
+        int points;
 
         if (scoreManager != null)
-            scoreManager.AddScore(points);
+            points = scoreManager.AddClassificationResult(isSuccessful, data.CorrectPoints, data.WrongPoints);
+        else
+            points = isSuccessful ? data.CorrectPoints : data.WrongPoints;
 
         PlayResultSound(isSuccessful);
 

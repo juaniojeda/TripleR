@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class CintaTransportadora : MonoBehaviour
 {
+    public TutorialPagesUI tutorialUI;
+
     public float velocidad = 1.0f;
     public Vector3 direccionLocal = Vector3.forward;
     [Min(0f)] public float amortiguacionLateral = 12f;
     public string tagObjetivo = "Residuo";
     public LayerMask capasPermitidas;
 
-    public bool isOn = true;
+    public bool isOn = false;
 
     private readonly HashSet<Rigidbody> objetosEnCinta = new HashSet<Rigidbody>();
     private readonly List<Rigidbody> buffer = new List<Rigidbody>();
@@ -103,16 +105,6 @@ public class CintaTransportadora : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        foreach (Rigidbody rb in objetosEnCinta)
-        {
-            RestaurarRestricciones(rb, true);
-        }
-
-        objetosEnCinta.Clear();
-    }
-
     private void RegistrarRestriccionesOriginales(Rigidbody rb)
     {
         if (rb == null || restriccionesOriginales.ContainsKey(rb))
@@ -195,5 +187,28 @@ public class CintaTransportadora : MonoBehaviour
             restriccionesOriginales.Remove(rb);
             interpolacionesOriginales.Remove(rb);
         }
+    }
+
+    private void OnEnable()
+    {
+        if (tutorialUI != null)
+        {
+            tutorialUI.OnTutorialFinished += TurnOn;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (tutorialUI != null)
+        {
+            tutorialUI.OnTutorialFinished -= TurnOn;
+        }
+
+        foreach (Rigidbody rb in objetosEnCinta)
+        {
+            RestaurarRestricciones(rb, true);
+        }
+
+        objetosEnCinta.Clear();
     }
 }

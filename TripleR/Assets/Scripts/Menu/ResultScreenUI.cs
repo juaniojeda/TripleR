@@ -52,7 +52,7 @@ public sealed class ResultScreenUI : MonoBehaviour
         SetText(correctText, correct.ToString());
         SetText(errorText, errors.ToString());
         SetText(effectivenessText, $"{effectiveness:0.#}%");
-        SetText(starsText, Mathf.Clamp(stars, 1, 5).ToString());
+        SetText(starsText, ScoreStarsFormatter.BuildStarsText(stars));
         SetText(coinsText, coins.ToString());
         SetText(performanceLabelText, label);
     }
@@ -69,14 +69,4 @@ public sealed class ResultScreenUI : MonoBehaviour
             target.SetActive(active);
     }
 
-    private static string BuildStarsText(int stars)
-    {
-        int clampedStars = Mathf.Clamp(stars, 1, 5);
-        string result = string.Empty;
-
-        for (int i = 0; i < 5; i++)
-            result += i < clampedStars ? "\u2605" : "\u2606";
-
-        return result;
-    }
 }
