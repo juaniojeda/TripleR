@@ -7,8 +7,8 @@ public sealed class ScoreManager : MonoBehaviour
     [Header("UI - Puntuacion y Estrellas")]
     [SerializeField] private Text scoreText;
     [SerializeField] private bool clampToZero = true;
-    [SerializeField] private Canvas starsCanvas;
-    [SerializeField] private Text starsText;
+    [SerializeField] private Image starsBackground;
+    [SerializeField] private Image starsFill;
 
     [Header("UI - Combos")]
     [SerializeField] private Canvas comboCanvas;
@@ -235,7 +235,7 @@ public sealed class ScoreManager : MonoBehaviour
             return;
 
         scoreTimer = new ScoreTimer(initialTime);
-        hudView = new ScoreHudView(scoreText, timeText, starsCanvas, starsText, comboCanvas, comboText);
+        hudView = new ScoreHudView(scoreText, timeText, starsBackground, starsFill, comboCanvas, comboText);
         scoreTextAnimator = new ScoreTextAnimator(this, scoreText);
         currentMultiplier = 1f;
         initialized = true;
