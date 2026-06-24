@@ -30,4 +30,9 @@ public sealed class MainMenuButtons : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
+
+    public void RestartPlayerPref()
+    {
+        PlayerProfile.ResetProfile();
+    }
 }
