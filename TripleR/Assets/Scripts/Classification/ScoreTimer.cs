@@ -4,14 +4,18 @@ public sealed class ScoreTimer
 {
     private int lastDisplayedSecond = -1;
 
-    public ScoreTimer(float initialTime)
+    public ScoreTimer(float initialTime, bool startImmediately = false)
     {
         CurrentTime = initialTime;
-        IsRunning = true;
+        IsRunning = startImmediately;
     }
 
     public float CurrentTime { get; private set; }
     public bool IsRunning { get; private set; }
+
+    public void TurnOn() => IsRunning = true;
+    public void TurnOff() => IsRunning = false;
+    public void Toggle() => IsRunning = !IsRunning;
 
     public bool Tick(float deltaTime, out bool finished)
     {

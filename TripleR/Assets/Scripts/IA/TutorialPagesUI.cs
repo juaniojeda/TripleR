@@ -1,8 +1,11 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class TutorialPagesUI : MonoBehaviour
 {
+    public event Action OnTutorialFinished;
+
     [Header("Textos TextMeshPro")]
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI bodyText;
@@ -58,6 +61,8 @@ public class TutorialPagesUI : MonoBehaviour
 
         if (aiOwner != null)
             aiOwner.FinishTutorial();
+
+        OnTutorialFinished?.Invoke();
     }
 
     private void ShowCurrentPage()
