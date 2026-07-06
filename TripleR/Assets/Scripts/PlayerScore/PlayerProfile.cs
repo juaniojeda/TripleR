@@ -6,6 +6,7 @@ public static class PlayerProfile
     private const string CoinsKey = "Coins";
     private const string LicensePrefix = "License_";
     private const string SkinPrefix = "Skin_";
+    private const string SkinActivePrefix = "SkinActive_";
 
     public static int BestScore => PlayerPrefs.GetInt(BestScoreKey, 0);
     public static int Coins => PlayerPrefs.GetInt(CoinsKey, 0);
@@ -99,9 +100,32 @@ public static class PlayerProfile
 
         PlayerPrefs.SetInt(CoinsKey, currentCoins - price);
         PlayerPrefs.SetInt(GetSkinKey(skinId), 1);
+        PlayerPrefs.SetInt(GetSkinActiveKey(skinId), 1);
         PlayerPrefs.Save();
 
         return true;
+    }
+
+    public static bool IsSkinActive(string skinId)
+    {
+        if (!HasSkin(skinId))
+            return false;
+
+        string activeKey = GetSkinActiveKey(skinId);
+
+        if (!PlayerPrefs.HasKey(activeKey))
+            return true;
+
+        return PlayerPrefs.GetInt(activeKey, 0) == 1;
+    }
+
+    public static void SetSkinActive(string skinId, bool active)
+    {
+        if (!HasSkin(skinId))
+            return;
+
+        PlayerPrefs.SetInt(GetSkinActiveKey(skinId), active ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     public static void ResetProfile()
@@ -119,5 +143,10 @@ public static class PlayerProfile
     private static string GetSkinKey(string skinId)
     {
         return SkinPrefix + skinId;
+    }
+
+    private static string GetSkinActiveKey(string skinId)
+    {
+        return SkinActivePrefix + skinId;
     }
 }

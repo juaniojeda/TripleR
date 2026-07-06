@@ -144,12 +144,6 @@ public sealed class MainMenuShopUI : MonoBehaviour
         SetSectionPanelActive(licensesPanel, showingLicenses);
         SetSectionPanelActive(skinsPanel, !showingLicenses);
 
-        if (licensesTabButton != null)
-            licensesTabButton.interactable = !showingLicenses;
-
-        if (skinsTabButton != null)
-            skinsTabButton.interactable = showingLicenses;
-
         ClearFeedback();
     }
 
@@ -218,7 +212,10 @@ public sealed class MainMenuShopUI : MonoBehaviour
 
         if (PlayerProfile.HasSkin(skinId))
         {
-            SetFeedback("Esta skin ya esta comprada.");
+            bool active = !PlayerProfile.IsSkinActive(skinId);
+            PlayerProfile.SetSkinActive(skinId, active);
+
+            SetFeedback(active ? "Skin activada." : "Skin desactivada.");
             Refresh();
             return;
         }
@@ -232,7 +229,7 @@ public sealed class MainMenuShopUI : MonoBehaviour
             return;
         }
 
-        SetFeedback("Skin comprada.");
+        SetFeedback("Skin comprada y activada.");
         Refresh();
 
         if (profileUI != null)
@@ -279,7 +276,7 @@ public sealed class MainMenuShopUI : MonoBehaviour
         {
             slot.stateText.text = owned
                 ? "Licencia activa"
-                : "Bloqueada";
+                : "Comprar";
         }
 
         if (slot.buyButton != null)
@@ -295,23 +292,24 @@ public sealed class MainMenuShopUI : MonoBehaviour
             return;
 
         bool owned = PlayerProfile.HasSkin(slot.skin.SkinId);
+        bool active = PlayerProfile.IsSkinActive(slot.skin.SkinId);
 
         if (slot.priceText != null)
         {
             slot.priceText.text = owned
-                ? "Comprada"
+                ? (active ? "Activada" : "Desactivada")
                 : $"Costo: {slot.skin.Price}";
         }
 
         if (slot.stateText != null)
         {
             slot.stateText.text = owned
-                ? "Skin activa"
-                : "Bloqueada";
+                ? (active ? "Activada" : "Desactivada")
+                : "Comprar";
         }
 
         if (slot.buyButton != null)
-            slot.buyButton.interactable = !owned;
+            slot.buyButton.interactable = true;
 
         if (slot.ownedMark != null)
             slot.ownedMark.SetActive(owned);

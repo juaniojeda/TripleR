@@ -1,10 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class SkinControlledObject : MonoBehaviour
 {
-    [SerializeField] private RecyclingSkinData skin;
-    [SerializeField] private GameObject objectToActivate;
-    [SerializeField] private GameObject objectToDeactivate;
+    [System.Serializable]
+    private sealed class SkinEntry
+    {
+        public RecyclingSkinData skin;
+        public GameObject objectToActivate;
+        public GameObject objectToDeactivate;
+    }
+
+    [SerializeField] private SkinEntry[] skinEntries;
+
+    [SerializeField, HideInInspector] private RecyclingSkinData skin;
+    [SerializeField, HideInInspector] private GameObject objectToActivate;
+    [SerializeField, HideInInspector] private GameObject objectToDeactivate;
 
     private void Awake()
     {
@@ -13,24 +24,64 @@ public sealed class SkinControlledObject : MonoBehaviour
 
     public void Apply()
     {
-        if (skin == null)
+        Dictionary<GameObject, bool> deactivateTargets = new Dictionary<GameObject, bool>();
+
+        ApplyEntry(skin, objectToActivate, objectToDeactivate, deactivateTargets);
+
+        if (skinEntries == null)
         {
-            Debug.LogError($"{name}: No tiene skin asignada.");
+            ApplyDeactivateTargets(deactivateTargets);
             return;
         }
 
-        bool unlocked = PlayerProfile.HasSkin(skin.SkinId);
+        for (int i = 0; i < skinEntries.Length; i++)
+        {
+            SkinEntry entry = skinEntries[i];
 
-        Debug.Log($"{name}: skin {skin.SkinId} comprada = {unlocked}");
+            if (entry == null)
+                continue;
 
-        if (objectToActivate != null)
-            objectToActivate.SetActive(unlocked);
+            ApplyEntry(entry.skin, entry.objectToActivate, entry.objectToDeactivate, deactivateTargets);
+        }
+
+        ApplyDeactivateTargets(deactivateTargets);
+    }
+
+    private void ApplyEntry(
+        RecyclingSkinData skinData,
+        GameObject activateTarget,
+        GameObject deactivateTarget,
+        Dictionary<GameObject, bool> deactivateTargets)
+    {
+        if (skinData == null)
+            return;
+
+        bool active = PlayerProfile.IsSkinActive(skinData.SkinId);
+
+        Debug.Log($"{name}: skin {skinData.SkinId} activa = {active}");
+
+        if (activateTarget != null)
+            activateTarget.SetActive(active);
         else
             Debug.LogError($"{name}: No tiene objectToActivate asignado.");
 
-        if (objectToDeactivate != null)
-            objectToDeactivate.SetActive(!unlocked);
+        if (deactivateTarget != null)
+            deactivateTargets[deactivateTarget] = IsTargetMarked(deactivateTargets, deactivateTarget) || active;
         else
             Debug.LogError($"{name}: No tiene objectToDeactivate asignado.");
+    }
+
+    private static bool IsTargetMarked(Dictionary<GameObject, bool> deactivateTargets, GameObject target)
+    {
+        return deactivateTargets.TryGetValue(target, out bool marked) && marked;
+    }
+
+    private static void ApplyDeactivateTargets(Dictionary<GameObject, bool> deactivateTargets)
+    {
+        foreach (KeyValuePair<GameObject, bool> entry in deactivateTargets)
+        {
+            if (entry.Key != null)
+                entry.Key.SetActive(!entry.Value);
+        }
     }
 }
