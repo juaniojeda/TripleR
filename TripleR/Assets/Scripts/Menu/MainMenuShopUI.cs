@@ -15,6 +15,16 @@ public sealed class MainMenuShopUI : MonoBehaviour
         public GameObject ownedMark;
     }
 
+    [Serializable]
+    private sealed class SkinSlot
+    {
+        public RecyclingSkinData skin;
+        public Button buyButton;
+        public TMP_Text priceText;
+        public TMP_Text stateText;
+        public GameObject ownedMark;
+    }
+
     [Header("Panel")]
     [SerializeField] private GameObject shopPanel;
 
@@ -22,14 +32,33 @@ public sealed class MainMenuShopUI : MonoBehaviour
     [SerializeField] private TMP_Text coinsText;
     [SerializeField] private TMP_Text feedbackText;
 
+    [Header("Sections")]
+    [SerializeField] private Button licensesTabButton;
+    [SerializeField] private Button skinsTabButton;
+    [SerializeField] private GameObject licensesPanel;
+    [SerializeField] private GameObject skinsPanel;
+    [SerializeField] private ShopSection defaultSection = ShopSection.Licenses;
+
     [Header("Profile UI")]
     [SerializeField] private MainMenuProfileUI profileUI;
 
     [Header("Licenses")]
     [SerializeField] private LicenseSlot[] licenseSlots;
 
+    [Header("Skins")]
+    [SerializeField] private SkinSlot[] skinSlots;
+
+    private enum ShopSection
+    {
+        Licenses,
+        Skins
+    }
+
+    private ShopSection currentSection;
+
     private void Awake()
     {
+        currentSection = defaultSection;
         RegisterButtons();
 
         if (shopPanel != null)
@@ -42,6 +71,7 @@ public sealed class MainMenuShopUI : MonoBehaviour
             shopPanel.SetActive(true);
 
         ClearFeedback();
+        ShowSection(defaultSection);
         Refresh();
     }
 
@@ -49,24 +79,83 @@ public sealed class MainMenuShopUI : MonoBehaviour
     {
         if (shopPanel != null)
             shopPanel.SetActive(false);
+
+        if (licensesPanel != null && licensesPanel != shopPanel)
+            licensesPanel.SetActive(false);
+
+        if (skinsPanel != null && skinsPanel != shopPanel)
+            skinsPanel.SetActive(false);
     }
 
     private void RegisterButtons()
     {
-        if (licenseSlots == null)
-            return;
+        if (licensesTabButton != null)
+            licensesTabButton.onClick.AddListener(ShowLicenses);
 
-        for (int i = 0; i < licenseSlots.Length; i++)
+        if (skinsTabButton != null)
+            skinsTabButton.onClick.AddListener(ShowSkins);
+
+        if (licenseSlots != null)
         {
-            int index = i;
-            LicenseSlot slot = licenseSlots[index];
+            for (int i = 0; i < licenseSlots.Length; i++)
+            {
+                int index = i;
+                LicenseSlot slot = licenseSlots[index];
 
-            if (slot != null && slot.buyButton != null)
-                slot.buyButton.onClick.AddListener(() => TryBuy(index));
+                if (slot != null && slot.buyButton != null)
+                    slot.buyButton.onClick.AddListener(() => TryBuyLicense(index));
+            }
+        }
+
+        if (skinSlots != null)
+        {
+            for (int i = 0; i < skinSlots.Length; i++)
+            {
+                int index = i;
+                SkinSlot slot = skinSlots[index];
+
+                if (slot != null && slot.buyButton != null)
+                    slot.buyButton.onClick.AddListener(() => TryBuySkin(index));
+            }
         }
     }
 
-    private void TryBuy(int index)
+    public void ShowLicenses()
+    {
+        ShowSection(ShopSection.Licenses);
+    }
+
+    public void ShowSkins()
+    {
+        ShowSection(ShopSection.Skins);
+    }
+
+    public void BackToShop()
+    {
+        ShowLicenses();
+    }
+
+    private void ShowSection(ShopSection section)
+    {
+        currentSection = section;
+
+        bool showingLicenses = currentSection == ShopSection.Licenses;
+
+        SetSectionPanelActive(licensesPanel, showingLicenses);
+        SetSectionPanelActive(skinsPanel, !showingLicenses);
+
+        ClearFeedback();
+    }
+
+    private void SetSectionPanelActive(GameObject sectionPanel, bool active)
+    {
+        if (sectionPanel == null)
+            return;
+
+        sectionPanel.SetActive(active);
+    }
+
+    private void TryBuyLicense(int index)
     {
         if (licenseSlots == null)
             return;
@@ -105,17 +194,67 @@ public sealed class MainMenuShopUI : MonoBehaviour
             profileUI.Refresh();
     }
 
+    private void TryBuySkin(int index)
+    {
+        if (skinSlots == null)
+            return;
+
+        if (index < 0 || index >= skinSlots.Length)
+            return;
+
+        SkinSlot slot = skinSlots[index];
+
+        if (slot == null || slot.skin == null)
+            return;
+
+        string skinId = slot.skin.SkinId;
+        int price = slot.skin.Price;
+
+        if (PlayerProfile.HasSkin(skinId))
+        {
+            bool active = !PlayerProfile.IsSkinActive(skinId);
+            PlayerProfile.SetSkinActive(skinId, active);
+
+            SetFeedback(active ? "Skin activada." : "Skin desactivada.");
+            Refresh();
+            return;
+        }
+
+        bool bought = PlayerProfile.TryBuySkin(skinId, price);
+
+        if (!bought)
+        {
+            SetFeedback("No tenes monedas suficientes.");
+            Refresh();
+            return;
+        }
+
+        SetFeedback("Skin comprada y activada.");
+        Refresh();
+
+        if (profileUI != null)
+            profileUI.Refresh();
+    }
+
     private void Refresh()
     {
         if (coinsText != null)
             coinsText.text = $"Monedas: {PlayerProfile.Coins}";
 
-        if (licenseSlots == null)
-            return;
-
-        for (int i = 0; i < licenseSlots.Length; i++)
+        if (licenseSlots != null)
         {
-            RefreshSlot(licenseSlots[i]);
+            for (int i = 0; i < licenseSlots.Length; i++)
+            {
+                RefreshSlot(licenseSlots[i]);
+            }
+        }
+
+        if (skinSlots != null)
+        {
+            for (int i = 0; i < skinSlots.Length; i++)
+            {
+                RefreshSkinSlot(skinSlots[i]);
+            }
         }
     }
 
@@ -137,11 +276,40 @@ public sealed class MainMenuShopUI : MonoBehaviour
         {
             slot.stateText.text = owned
                 ? "Licencia activa"
-                : "Bloqueada";
+                : "Comprar";
         }
 
         if (slot.buyButton != null)
             slot.buyButton.interactable = !owned;
+
+        if (slot.ownedMark != null)
+            slot.ownedMark.SetActive(owned);
+    }
+
+    private void RefreshSkinSlot(SkinSlot slot)
+    {
+        if (slot == null || slot.skin == null)
+            return;
+
+        bool owned = PlayerProfile.HasSkin(slot.skin.SkinId);
+        bool active = PlayerProfile.IsSkinActive(slot.skin.SkinId);
+
+        if (slot.priceText != null)
+        {
+            slot.priceText.text = owned
+                ? (active ? "Activada" : "Desactivada")
+                : $"Costo: {slot.skin.Price}";
+        }
+
+        if (slot.stateText != null)
+        {
+            slot.stateText.text = owned
+                ? (active ? "Activada" : "Desactivada")
+                : "Comprar";
+        }
+
+        if (slot.buyButton != null)
+            slot.buyButton.interactable = true;
 
         if (slot.ownedMark != null)
             slot.ownedMark.SetActive(owned);
