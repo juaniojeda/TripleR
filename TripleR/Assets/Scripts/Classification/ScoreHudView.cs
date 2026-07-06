@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,18 +46,30 @@ public sealed class ScoreHudView
     {
         int clampedStars = ScoreStarsFormatter.Clamp(stars);
         float fillAmount = (float)clampedStars / ScoreStarsFormatter.MaxStars;
+        RefreshStarsFill(fillAmount);
+    }
 
+    public void RefreshStarsFill(float fillAmount)
+    {
         if (starsBackground != null)
             starsBackground.fillAmount = 1f;
 
         if (starsFill != null)
-            starsFill.fillAmount = fillAmount;
+            starsFill.fillAmount = Mathf.Clamp01(fillAmount);
     }
 
     public void RefreshCombo(int combo, float multiplier)
     {
+        _ = combo;
+
         if (comboText != null)
-            comboText.text = $"Combo: {combo}\nx{multiplier:0.#}";
+            comboText.text = FormatMultiplier(multiplier);
+    }
+
+    private static string FormatMultiplier(float multiplier)
+    {
+        float safeMultiplier = Mathf.Max(1f, multiplier);
+        return safeMultiplier.ToString("0.#", CultureInfo.InvariantCulture);
     }
 
     private void ConfigureStarsFill()

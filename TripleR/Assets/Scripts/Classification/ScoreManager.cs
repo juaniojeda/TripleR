@@ -12,6 +12,10 @@ public sealed class ScoreManager : MonoBehaviour
     [SerializeField] private Image starsBackground;
     [SerializeField] private Image starsFill;
 
+    [Header("Estrellas por Puntaje")]
+    [SerializeField, Min(1)] private int maxScoreForStars = 1000;
+    [SerializeField, Min(1)] private int maxStars = 5;
+
     [Header("UI - Combos")]
     [SerializeField] private Canvas comboCanvas;
     [SerializeField] private Text comboText;
@@ -102,7 +106,6 @@ public sealed class ScoreManager : MonoBehaviour
             return;
 
         totalWasteGenerated += amount;
-        RefreshStarsPreview();
     }
 
     public int AddCorrectClassification()
@@ -120,7 +123,6 @@ public sealed class ScoreManager : MonoBehaviour
 
         int points = Mathf.RoundToInt(basePoints * currentMultiplier);
         AddScore(points);
-        RefreshStarsPreview();
         return points;
     }
 
@@ -139,7 +141,6 @@ public sealed class ScoreManager : MonoBehaviour
 
         int points = -Mathf.Abs(penaltyPoints);
         AddScore(points);
-        RefreshStarsPreview();
         return points;
     }
 
@@ -168,6 +169,7 @@ public sealed class ScoreManager : MonoBehaviour
         PlayerProfile.TrySaveBestScore(currentScore);
         hudView.RefreshScore(currentScore);
         hudView.RefreshCombo(currentCombo, currentMultiplier);
+        RefreshStarsByScore();
         scoreTextAnimator.Play(amount, bumpScale, bumpDuration, shakeMagnitude, shakeDuration);
     }
 
@@ -215,15 +217,15 @@ public sealed class ScoreManager : MonoBehaviour
 
         ClaimCoins();
 
-        PerformanceResult result = PerformanceEvaluator.Evaluate(correctCount, errorCount, totalWasteGenerated);
+        PerformanceResult result = ScorePerformanceEvaluator.Evaluate(currentScore, maxScoreForStars, maxStars);
         int totalCoinsEarned = pointCoinsEarnedThisSession + result.BaseCoins;
 
         PlayerProfile.AddCoins(result.BaseCoins);
-        PerformanceSessionStorage.SaveLastSession(currentScore, correctCount, errorCount, totalWasteGenerated, result, totalCoinsEarned);
+        PerformanceSessionStorage.SaveLastSession(currentScore, correctCount, errorCount, totalWasteGenerated, result, totalCoinsEarned, maxScoreForStars, maxStars);
         PerformanceSessionStorage.UpdateTrashLevel(result.Stars);
         PlayerPrefs.Save();
 
-        hudView.RefreshStars(result.Stars);
+        RefreshStarsByScore();
 
         if (result.IsWin)
             OnWin?.Invoke();
@@ -245,16 +247,16 @@ public sealed class ScoreManager : MonoBehaviour
         hudView.RefreshScore(currentScore);
         hudView.RefreshTime(scoreTimer.CurrentTime);
         hudView.RefreshCombo(currentCombo, currentMultiplier);
-        RefreshStarsPreview();
+        RefreshStarsByScore();
     }
 
-    private void RefreshStarsPreview()
+    private void RefreshStarsByScore()
     {
         if (hudView == null)
             return;
 
-        PerformanceResult result = PerformanceEvaluator.Evaluate(correctCount, errorCount, totalWasteGenerated);
-        hudView.RefreshStars(result.Stars);
+        float fillAmount = ScoreStarsCalculator.CalculateFillAmount(currentScore, maxScoreForStars);
+        hudView.RefreshStarsFill(fillAmount);
     }
 
     private void OnEnable()
