@@ -1,35 +1,63 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 [DisallowMultipleComponent]
 public sealed class MagnetPowerUpButton : MonoBehaviour
 {
+    [Header("Magnet Settings")]
     [SerializeField] private MagnetPowerUpController magnetPowerUp;
-    [SerializeField] private LayerMask pressingLayers = ~0;
-    [SerializeField, Min(0f)] private float pressCooldown = 0.25f;
-    [SerializeField] private bool activateOnTriggerEnter = true;
 
-    [Header("Feedback")]
-    [SerializeField] private Animator buttonAnimator;
-    [SerializeField] private string pressedTrigger = "Pressed";
-    [SerializeField] private ParticleSystem pressParticles;
-    [SerializeField] private AK.Wwise.Event pressEvent;
-    [SerializeField] private UnityEvent pressed;
+    [Header("Respawn Settings")]
+    public float respawnDelay = 10f;
+    public bool returnToStartPosition = true;
 
-    private float nextPressTime;
+    [Header("Components To Hide")]
+    public Collider[] collidersToDisable;
+    public Renderer[] renderersToDisable;
+
+    private bool isAvailable = true;
+    private Vector3 startPosition;
+    private Quaternion startRotation;
+    private Rigidbody rb;
 
     private void Awake()
     {
         if (magnetPowerUp == null)
             magnetPowerUp = MagnetPowerUpController.Instance;
+
+        startPosition = transform.position;
+        startRotation = transform.rotation;
+
+        rb = GetComponent<Rigidbody>();
+
+        if (collidersToDisable == null || collidersToDisable.Length == 0)
+        {
+            collidersToDisable = GetComponentsInChildren<Collider>(true);
+        }
+
+        if (renderersToDisable == null || renderersToDisable.Length == 0)
+        {
+            renderersToDisable = GetComponentsInChildren<Renderer>(true);
+        }
+    }
+
+    private void Reset()
+    {
+        collidersToDisable = GetComponentsInChildren<Collider>(true);
+        renderersToDisable = GetComponentsInChildren<Renderer>(true);
     }
 
     public void Press()
     {
-        if (Time.time < nextPressTime)
+        if (!isAvailable)
             return;
 
-        nextPressTime = Time.time + pressCooldown;
+        StartCoroutine(PowerUpRoutine());
+    }
+
+    private IEnumerator PowerUpRoutine()
+    {
+        isAvailable = false;
 
         MagnetPowerUpController target = magnetPowerUp != null
             ? magnetPowerUp
@@ -38,36 +66,62 @@ public sealed class MagnetPowerUpButton : MonoBehaviour
         if (target != null)
             target.Activate();
 
-        PlayFeedback();
+        HidePowerUp();
+
+        yield return new WaitForSecondsRealtime(respawnDelay);
+
+        RespawnPowerUp();
+
+        isAvailable = true;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void HidePowerUp()
     {
-        if (!activateOnTriggerEnter)
-            return;
+        foreach (Renderer rend in renderersToDisable)
+        {
+            if (rend != null)
+                rend.enabled = false;
+        }
 
-        if (!IsLayerAccepted(other.gameObject.layer))
-            return;
+        foreach (Collider col in collidersToDisable)
+        {
+            if (col != null)
+                col.enabled = false;
+        }
 
-        Press();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+        }
     }
 
-    private bool IsLayerAccepted(int layer)
+    private void RespawnPowerUp()
     {
-        return (pressingLayers.value & (1 << layer)) != 0;
-    }
+        if (returnToStartPosition)
+        {
+            transform.position = startPosition;
+            transform.rotation = startRotation;
+        }
 
-    private void PlayFeedback()
-    {
-        if (buttonAnimator != null && !string.IsNullOrEmpty(pressedTrigger))
-            buttonAnimator.SetTrigger(pressedTrigger);
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = false;
+        }
 
-        if (pressParticles != null)
-            pressParticles.Play();
+        foreach (Renderer rend in renderersToDisable)
+        {
+            if (rend != null)
+                rend.enabled = true;
+        }
 
-        if (pressEvent != null && pressEvent.IsValid())
-            pressEvent.Post(gameObject);
-
-        pressed?.Invoke();
+        foreach (Collider col in collidersToDisable)
+        {
+            if (col != null)
+                col.enabled = true;
+        }
     }
 }

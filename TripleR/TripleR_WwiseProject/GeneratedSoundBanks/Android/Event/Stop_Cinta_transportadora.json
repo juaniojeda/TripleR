@@ -1,0 +1,33 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2102607390",
+    "Type": "Event",
+    "GUID": "{187D276A-561D-4D12-B5D5-27D6DF0D3381}",
+    "Language": "SFX",
+    "Hash": "{BFC799C6-5344-6292-465B-508EA2660FED}",
+    "ObjectPath": "Stop_Cinta_transportadora",
+    "ShortName": "Stop_Cinta_transportadora",
+    "Path": "Event/Stop_Cinta_transportadora.bnk",
+    "Events": [
+     {
+      "Id": "2102607390",
+      "Name": "Stop_Cinta_transportadora",
+      "ObjectPath": "\\Events\\Default Work Unit\\Stop_Cinta_transportadora",
+      "GUID": "{187D276A-561D-4D12-B5D5-27D6DF0D3381}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     }
+    ]
+   }
+  ],
+  "FileHash": "{F12F49D8-EDDF-BE7A-4086-150DAD359DF3}"
+ }
+}
