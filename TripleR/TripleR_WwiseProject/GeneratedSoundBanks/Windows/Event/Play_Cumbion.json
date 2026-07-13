@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{857A1056-1D63-4978-A6B5-0B8B59B2927D}",
     "Language": "SFX",
-    "Hash": "{47E8D9DC-3C70-52A8-E8CA-4E29C64D64D0}",
+    "Hash": "{5D33BC0C-8F39-3F7C-DDBA-C9273A10A8E8}",
     "ObjectPath": "Play_Cumbion",
     "ShortName": "Play_Cumbion",
     "Path": "Event/Play_Cumbion.bnk",
@@ -22,7 +22,7 @@
       "Location": "Loose",
       "ShortName": "Cumbion.wav",
       "Path": "Media/1037563937.wem",
-      "CachePath": "35/{35D2C86C-AF66-EB3A-6EFE-B230D5AAA51F}.wem"
+      "CachePath": "D4/{D45ADDAB-947C-86EC-7AF1-C6BD3F7F30AA}.wem"
      }
     ],
     "Events": [
@@ -31,10 +31,8 @@
       "Name": "Play_Cumbion",
       "ObjectPath": "\\Events\\Default Work Unit\\Play_Cumbion",
       "GUID": "{857A1056-1D63-4978-A6B5-0B8B59B2927D}",
-      "MaxAttenuation": "25",
-      "DurationType": "OneShot",
-      "DurationMin": "16.407482",
-      "DurationMax": "16.407482",
+      "MaxAttenuation": "40",
+      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "1037563937"
@@ -44,6 +42,6 @@
     ]
    }
   ],
-  "FileHash": "{1EBC297A-70DF-1249-781C-666DC23E7D4E}"
+  "FileHash": "{E3C28804-18FC-C5C8-4A79-ED138EFB97EA}"
  }
 }
