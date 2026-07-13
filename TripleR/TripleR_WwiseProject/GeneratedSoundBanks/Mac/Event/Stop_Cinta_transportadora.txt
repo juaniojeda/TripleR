@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2102607390	Stop_Cinta_transportadora			\Default Work Unit\Stop_Cinta_transportadora	
+

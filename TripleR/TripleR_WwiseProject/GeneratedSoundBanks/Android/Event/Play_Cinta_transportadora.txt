@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	4115476352	Play_Cinta_transportadora			\Default Work Unit\Play_Cinta_transportadora	
+

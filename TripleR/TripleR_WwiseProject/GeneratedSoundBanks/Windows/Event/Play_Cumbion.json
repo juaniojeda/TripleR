@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "513726651",
+    "Type": "Event",
+    "GUID": "{857A1056-1D63-4978-A6B5-0B8B59B2927D}",
+    "Language": "SFX",
+    "Hash": "{E1195470-E9E5-95D0-DADB-5A9FAB004D09}",
+    "ObjectPath": "Play_Cumbion",
+    "ShortName": "Play_Cumbion",
+    "Path": "Event/Play_Cumbion.bnk",
+    "Media": [
+     {
+      "Id": "1037563937",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "Cumbion.wav",
+      "Path": "Media/1037563937.wem",
+      "CachePath": "35/{35D2C86C-AF66-EB3A-6EFE-B230D5AAA51F}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "513726651",
+      "Name": "Play_Cumbion",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Cumbion",
+      "GUID": "{857A1056-1D63-4978-A6B5-0B8B59B2927D}",
+      "MaxAttenuation": "100",
+      "DurationType": "OneShot",
+      "DurationMin": "16.407482",
+      "DurationMax": "16.407482",
+      "MediaRefs": [
+       {
+        "Id": "1037563937"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{FEFBF19E-BCA6-39EE-917B-4CA0C0D0F058}"
+ }
+}

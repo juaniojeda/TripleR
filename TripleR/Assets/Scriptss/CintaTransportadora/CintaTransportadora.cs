@@ -12,6 +12,10 @@ public class CintaTransportadora : MonoBehaviour
     public string tagObjetivo = "Residuo";
     public LayerMask capasPermitidas;
 
+    [SerializeField] private AK.Wwise.Event playBeltEvent;
+    [SerializeField] private AK.Wwise.Event stopBeltEvent;
+    [SerializeField] private GameObject audioEmitter;
+
     public bool isOn = false;
 
     private readonly HashSet<Rigidbody> objetosEnCinta = new HashSet<Rigidbody>();
@@ -19,9 +23,27 @@ public class CintaTransportadora : MonoBehaviour
     private readonly Dictionary<Rigidbody, RigidbodyConstraints> restriccionesOriginales = new Dictionary<Rigidbody, RigidbodyConstraints>();
     private readonly Dictionary<Rigidbody, RigidbodyInterpolation> interpolacionesOriginales = new Dictionary<Rigidbody, RigidbodyInterpolation>();
 
-    public void TurnOn() => isOn = true;
-    public void TurnOff() => isOn = false;
-    public void Toggle() => isOn = !isOn;
+    private bool isBeltAudioPlaying;
+
+    public void TurnOn()
+    {
+        isOn = true;
+        PlayBeltAudio();
+    }
+
+    public void TurnOff()
+    {
+        isOn = false;
+        StopBeltAudio();
+    }
+
+    public void Toggle()
+    {
+        if (isOn)
+            TurnOff();
+        else
+            TurnOn();
+    }
 
     private void FixedUpdate()
     {
@@ -195,6 +217,9 @@ public class CintaTransportadora : MonoBehaviour
         {
             tutorialUI.OnTutorialFinished += TurnOn;
         }
+
+        if (isOn)
+            PlayBeltAudio();
     }
 
     private void OnDisable()
@@ -204,11 +229,33 @@ public class CintaTransportadora : MonoBehaviour
             tutorialUI.OnTutorialFinished -= TurnOn;
         }
 
+        StopBeltAudio();
+
         foreach (Rigidbody rb in objetosEnCinta)
         {
             RestaurarRestricciones(rb, true);
         }
 
         objetosEnCinta.Clear();
+    }
+
+    private void PlayBeltAudio()
+    {
+        if (isBeltAudioPlaying)
+            return;
+
+        if (playBeltEvent != null && playBeltEvent.IsValid())
+        {
+            playBeltEvent.Post(audioEmitter != null ? audioEmitter : gameObject);
+            isBeltAudioPlaying = true;
+        }
+    }
+
+    private void StopBeltAudio()
+    {
+        if (stopBeltEvent != null && stopBeltEvent.IsValid())
+            stopBeltEvent.Post(audioEmitter != null ? audioEmitter : gameObject);
+
+        isBeltAudioPlaying = false;
     }
 }
