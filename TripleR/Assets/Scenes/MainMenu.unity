@@ -32176,7 +32176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6820869261078638364, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
       propertyPath: _controllerMovement._value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7917039401199847347, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
       propertyPath: m_LocalPosition.y
