@@ -72,7 +72,6 @@ MonoBehaviour:
   _data: {fileID: 0}
   _pointableElement: {fileID: 4349936152959223574}
   _rigidbody: {fileID: 5331814390935187827}
-  _physicsGrabbable: {fileID: 0}
   _resetGrabOnGrabsUpdated: 1
   _scoringModifier:
     _positionRotationWeight: 0.5
@@ -117,7 +116,6 @@ MonoBehaviour:
   _useClosestPointAsGrabSource: 0
   _releaseDistance: 0
   _resetGrabOnGrabsUpdated: 1
-  _physicsGrabbable: {fileID: 0}
 --- !u!1 &8313339862645493351
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +149,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.4079218, y: -1.5400001, z: 5.7143292}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9027310832718234913}

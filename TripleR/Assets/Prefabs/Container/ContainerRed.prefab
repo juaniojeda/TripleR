@@ -1423,6 +1423,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trashcan
       objectReference: {fileID: 0}
+    - target: {fileID: 8999884641525164368, guid: d8070adc0cfebb04a9dd081a7a7e47f6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 807dd321797c7864184c5d30b8d498e2, type: 2}
     - target: {fileID: 9163084883620229300, guid: d8070adc0cfebb04a9dd081a7a7e47f6, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.75
