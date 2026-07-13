@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{DF1C1A83-638C-4B02-93BE-E61CAEF57438}",
     "Language": "SFX",
-    "Hash": "{BFD6C5D2-CF91-E6A6-1C85-35DF52319FF0}",
+    "Hash": "{7412302A-40E0-51F2-D586-C6977CF4EBE8}",
     "ObjectPath": "Play_Cinta_transportadora",
     "ShortName": "Play_Cinta_transportadora",
     "Path": "Event/Play_Cinta_transportadora.bnk",
@@ -31,7 +31,7 @@
       "Name": "Play_Cinta_transportadora",
       "ObjectPath": "\\Events\\Default Work Unit\\Play_Cinta_transportadora",
       "GUID": "{DF1C1A83-638C-4B02-93BE-E61CAEF57438}",
-      "MaxAttenuation": "100",
+      "MaxAttenuation": "25",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -42,6 +42,6 @@
     ]
    }
   ],
-  "FileHash": "{06F6D178-4884-9EAF-0080-F3A280F406E9}"
+  "FileHash": "{87710D70-2DB4-56E9-702E-A9E024D58BB2}"
  }
 }

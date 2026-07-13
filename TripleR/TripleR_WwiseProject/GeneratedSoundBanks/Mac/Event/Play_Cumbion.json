@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{857A1056-1D63-4978-A6B5-0B8B59B2927D}",
     "Language": "SFX",
-    "Hash": "{E1195470-E9E5-95D0-DADB-5A9FAB004D09}",
+    "Hash": "{47E8D9DC-3C70-52A8-E8CA-4E29C64D64D0}",
     "ObjectPath": "Play_Cumbion",
     "ShortName": "Play_Cumbion",
     "Path": "Event/Play_Cumbion.bnk",
@@ -31,7 +31,7 @@
       "Name": "Play_Cumbion",
       "ObjectPath": "\\Events\\Default Work Unit\\Play_Cumbion",
       "GUID": "{857A1056-1D63-4978-A6B5-0B8B59B2927D}",
-      "MaxAttenuation": "100",
+      "MaxAttenuation": "25",
       "DurationType": "OneShot",
       "DurationMin": "16.407482",
       "DurationMax": "16.407482",
@@ -44,6 +44,6 @@
     ]
    }
   ],
-  "FileHash": "{687EA8A6-CE56-ED69-B90A-2A6AA098516F}"
+  "FileHash": "{D3A51FC0-5E91-AA35-43A3-1D1F5C767AD3}"
  }
 }
