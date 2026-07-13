@@ -2854,6 +2854,8 @@ MonoBehaviour:
   clampToZero: 1
   starsBackground: {fileID: 1766506888}
   starsFill: {fileID: 1949802793}
+  maxScoreForStars: 1000
+  maxStars: 5
   comboCanvas: {fileID: 1582085321}
   comboText: {fileID: 1848508987}
   timeText: {fileID: 1785937967}
@@ -10250,7 +10252,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.3609898
+  m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &442062616
 GameObject:
@@ -13599,17 +13601,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetPowerUp: {fileID: 690209515}
-  pressCooldown: 0.25
-  buttonAnimator: {fileID: 0}
-  pressedTrigger: Pressed
-  pressParticles: {fileID: 0}
-  pressEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
-  pressed:
-    m_PersistentCalls:
-      m_Calls: []
+  respawnDelay: 10
+  returnToStartPosition: 1
+  collidersToDisable: []
+  renderersToDisable: []
 --- !u!65 &570676585
 BoxCollider:
   m_ObjectHideFlags: 0

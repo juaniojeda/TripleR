@@ -242,7 +242,6 @@ MonoBehaviour:
   _useClosestPointAsGrabSource: 0
   _releaseDistance: 0
   _resetGrabOnGrabsUpdated: 1
-  _physicsGrabbable: {fileID: 0}
 --- !u!114 &8580625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +260,6 @@ MonoBehaviour:
   _data: {fileID: 0}
   _pointableElement: {fileID: 1684437585}
   _rigidbody: {fileID: 1684437584}
-  _physicsGrabbable: {fileID: 0}
   _resetGrabOnGrabsUpdated: 1
   _scoringModifier:
     _positionRotationWeight: 0.5
@@ -14754,6 +14752,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1923089379}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &627363826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 627363827}
+  m_Layer: 0
+  m_Name: MagnetpointVerde
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &627363827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627363826}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.872, y: 0.814, z: 5.773}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &631079946
 GameObject:
   m_ObjectHideFlags: 0
@@ -15942,10 +15971,10 @@ MonoBehaviour:
     targetPoint: {fileID: 678173426}
   - categoryId: vidrio
     targetPoint: {fileID: 768831411}
-  - categoryId: 
-    targetPoint: {fileID: 0}
-  - categoryId: 
-    targetPoint: {fileID: 0}
+  - categoryId: verde
+    targetPoint: {fileID: 627363827}
+  - categoryId: marron
+    targetPoint: {fileID: 1232567827}
   startSpeed: 2.25
   acceleration: 12
   arrivalDistance: 0.16
@@ -16960,7 +16989,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 364529731}
+  m_Mesh: {fileID: 1195130599}
 --- !u!33 &761752481
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -28619,6 +28648,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 332ccb4aad70fbe4d988e552bbd53924, type: 3}
   m_PrefabInstance: {fileID: 1229143665}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1232567826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1232567827}
+  m_Layer: 0
+  m_Name: MagnetpointMarron
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1232567827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232567826}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.993, y: 0.814, z: 5.716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1234585178
 GameObject:
   m_ObjectHideFlags: 0
@@ -30386,7 +30446,6 @@ MonoBehaviour:
   _useClosestPointAsGrabSource: 0
   _releaseDistance: 0
   _resetGrabOnGrabsUpdated: 1
-  _physicsGrabbable: {fileID: 0}
 --- !u!114 &1318907831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30405,7 +30464,6 @@ MonoBehaviour:
   _data: {fileID: 0}
   _pointableElement: {fileID: 1713657061}
   _rigidbody: {fileID: 1713657062}
-  _physicsGrabbable: {fileID: 0}
   _resetGrabOnGrabsUpdated: 1
   _scoringModifier:
     _positionRotationWeight: 0.5
@@ -46218,8 +46276,6 @@ MonoBehaviour:
   wideMotionModeHandPosesEnabled: 0
   _readOnlyFastMotionModeHandPosesEnabled: 0
   fastMotionModeHandPosesEnabled: 0
-  _readOnlyWideMotionMode2HandPosesEnabled: 0
-  wideMotionMode2HandPosesEnabled: 0
   dynamicResolutionVersion: 1
 --- !u!114 &1938724055
 MonoBehaviour:
@@ -52310,6 +52366,8 @@ SceneRoots:
   - {fileID: 690209516}
   - {fileID: 678173426}
   - {fileID: 768831411}
+  - {fileID: 627363827}
+  - {fileID: 1232567827}
   - {fileID: 1747275911}
   - {fileID: 1629368083}
   - {fileID: 1115499366}
