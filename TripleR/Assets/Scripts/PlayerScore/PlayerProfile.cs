@@ -130,8 +130,7 @@ public static class PlayerProfile
 
     public static void ResetProfile()
     {
-        PlayerPrefs.DeleteKey(BestScoreKey);
-        PlayerPrefs.DeleteKey(CoinsKey);
+        PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
     }
 
