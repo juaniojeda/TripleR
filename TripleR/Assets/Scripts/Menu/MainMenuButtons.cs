@@ -34,5 +34,6 @@ public sealed class MainMenuButtons : MonoBehaviour
     public void RestartPlayerPref()
     {
         PlayerProfile.ResetProfile();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -25,6 +25,56 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_Cinta_transportadora" ID="{DF1C1A83-638C-4B02-93BE-E61CAEF57438}">
+					<ChildrenList>
+						<Action Name="" ID="{90DE1210-3104-49F1-9912-4D0CB3BFFC59}" ShortID="1025166737">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Cinta_transportadora" ID="{3FDB4AB6-E647-4F63-9421-E702C40FF6EA}" WorkUnitID="{C1055783-0926-4705-BEC0-6D301226F910}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_Cinta_transportadora" ID="{187D276A-561D-4D12-B5D5-27D6DF0D3381}">
+					<ChildrenList>
+						<Action Name="" ID="{64DA5A74-93CD-4356-90D7-942C0EFAEDA8}" ShortID="777559406">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Cinta_transportadora" ID="{3FDB4AB6-E647-4F63-9421-E702C40FF6EA}" WorkUnitID="{C1055783-0926-4705-BEC0-6D301226F910}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Cumbion" ID="{857A1056-1D63-4978-A6B5-0B8B59B2927D}">
+					<ChildrenList>
+						<Action Name="" ID="{62CCC9C6-FCF8-4F04-AD7A-2EDC7A06EF2D}" ShortID="344139483">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Cumbion" ID="{192DFFF2-F112-464A-B447-BCACC60CDC89}" WorkUnitID="{C1055783-0926-4705-BEC0-6D301226F910}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_Cumbion" ID="{85C91443-9150-4A7F-B1F9-8F0E2EE87270}">
+					<ChildrenList>
+						<Action Name="" ID="{626EDD69-017C-4C71-AA6F-E4BCEF68F329}" ShortID="48804124">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Cumbion" ID="{192DFFF2-F112-464A-B447-BCACC60CDC89}" WorkUnitID="{C1055783-0926-4705-BEC0-6D301226F910}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

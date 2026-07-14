@@ -13,8 +13,12 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID PLAY_CINTA_TRANSPORTADORA = 4115476352U;
         static const AkUniqueID PLAY_CLASSIFY_CORRECT = 3459452139U;
         static const AkUniqueID PLAY_CLASSIFY_WRONG = 3986672242U;
+        static const AkUniqueID PLAY_CUMBION = 513726651U;
+        static const AkUniqueID STOP_CINTA_TRANSPORTADORA = 2102607390U;
+        static const AkUniqueID STOP_CUMBION = 701668717U;
     } // namespace EVENTS
 
     namespace BANKS

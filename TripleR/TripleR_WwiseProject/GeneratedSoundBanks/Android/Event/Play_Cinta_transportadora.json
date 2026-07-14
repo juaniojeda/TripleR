@@ -1,0 +1,47 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "4115476352",
+    "Type": "Event",
+    "GUID": "{DF1C1A83-638C-4B02-93BE-E61CAEF57438}",
+    "Language": "SFX",
+    "Hash": "{3B88FE1A-7D6E-D078-1110-FC142BA51F37}",
+    "ObjectPath": "Play_Cinta_transportadora",
+    "ShortName": "Play_Cinta_transportadora",
+    "Path": "Event/Play_Cinta_transportadora.bnk",
+    "Media": [
+     {
+      "Id": "506025752",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "Cinta_transportadora.wav",
+      "Path": "Media/506025752.wem",
+      "CachePath": "15/{15E4AFFD-3A6A-6CEC-00CB-827B8E1511D6}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "4115476352",
+      "Name": "Play_Cinta_transportadora",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Cinta_transportadora",
+      "GUID": "{DF1C1A83-638C-4B02-93BE-E61CAEF57438}",
+      "MaxAttenuation": "40",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "506025752"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{0CF93C10-62E7-D787-2515-4A62FF36A0E9}"
+ }
+}

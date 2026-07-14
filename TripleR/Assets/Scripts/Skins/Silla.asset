@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d3221c2f9f4d9499df56b3a86562a1, type: 3}
   m_Name: Silla
   m_EditorClassIdentifier: 
-  skinId: Silla
+  skinId: Silla_Chica
   price: 3
