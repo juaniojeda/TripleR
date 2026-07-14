@@ -67,6 +67,7 @@ public class BulletTimePowerUp : MonoBehaviour
 
         HidePowerUp();
 
+        // El respawn no debe alargarse por el mismo bullet time que acaba de activar.
         yield return new WaitForSecondsRealtime(respawnDelay);
 
         RespawnPowerUp();

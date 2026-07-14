@@ -13,6 +13,7 @@ public sealed class SkinControlledObject : MonoBehaviour
 
     [SerializeField] private SkinEntry[] skinEntries;
 
+    // Campos heredados para conservar asignaciones serializadas anteriores a skinEntries.
     [SerializeField, HideInInspector] private RecyclingSkinData skin;
     [SerializeField, HideInInspector] private GameObject objectToActivate;
     [SerializeField, HideInInspector] private GameObject objectToDeactivate;
@@ -24,6 +25,7 @@ public sealed class SkinControlledObject : MonoBehaviour
 
     public void Apply()
     {
+        // Varias skins pueden compartir la base; se oculta si alguna variante está activa.
         Dictionary<GameObject, bool> deactivateTargets = new Dictionary<GameObject, bool>();
 
         ApplyEntry(skin, objectToActivate, objectToDeactivate, deactivateTargets);

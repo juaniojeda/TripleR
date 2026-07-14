@@ -3,6 +3,7 @@ using UnityEngine;
 
 public sealed class ClassificationContainer : MonoBehaviour
 {
+    /// Se dispara antes de devolver el residuo al pool para conservar la posición del impacto.
     public event Action<Vector3> OnCorrectClassification;
 
     [SerializeField] private string acceptedCategoryId;
@@ -39,6 +40,7 @@ public sealed class ClassificationContainer : MonoBehaviour
         bool isSuccessful;
         if (capacityManager != null)
         {
+            // Un compactador lleno rechaza incluso una categoría correcta.
             isSuccessful = capacityManager.TryClassify(isCorrectCategory);
         }
         else

@@ -20,6 +20,7 @@ public class CintaTransportadora : MonoBehaviour
 
     private readonly HashSet<Rigidbody> objetosEnCinta = new HashSet<Rigidbody>();
     private readonly List<Rigidbody> buffer = new List<Rigidbody>();
+    // Cada residuo puede venir del pool con una configuración distinta; se restaura al salir.
     private readonly Dictionary<Rigidbody, RigidbodyConstraints> restriccionesOriginales = new Dictionary<Rigidbody, RigidbodyConstraints>();
     private readonly Dictionary<Rigidbody, RigidbodyInterpolation> interpolacionesOriginales = new Dictionary<Rigidbody, RigidbodyInterpolation>();
 
@@ -171,6 +172,7 @@ public class CintaTransportadora : MonoBehaviour
 
     private void EstabilizarVelocidadEnCinta(Rigidbody rb, Vector3 direccionMundo, Vector3 normalCinta)
     {
+        // Conserva la velocidad vertical y solo corrige el avance y el desvío sobre la cinta.
         Vector3 velocidadActual = rb.linearVelocity;
         float velocidadNormal = Vector3.Dot(velocidadActual, normalCinta);
 
@@ -231,6 +233,7 @@ public class CintaTransportadora : MonoBehaviour
 
         StopBeltAudio();
 
+        // Al desactivar la cinta no siempre llega OnTriggerExit, sobre todo con objetos pooled.
         foreach (Rigidbody rb in objetosEnCinta)
         {
             RestaurarRestricciones(rb, true);

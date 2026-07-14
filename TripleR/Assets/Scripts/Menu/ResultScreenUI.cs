@@ -49,6 +49,7 @@ public sealed class ResultScreenUI : MonoBehaviour
 
     public void Refresh()
     {
+        // La partida ya cambió de escena; PlayerPrefs conserva el resultado de ScoreManager.
         int score = PlayerPrefs.GetInt(PerformanceSessionStorage.LastScoreKey, 0);
         int correct = PlayerPrefs.GetInt(PerformanceSessionStorage.LastCorrectCountKey, 0);
         int errors = PlayerPrefs.GetInt(PerformanceSessionStorage.LastErrorCountKey, 0);

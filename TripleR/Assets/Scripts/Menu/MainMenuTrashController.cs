@@ -57,6 +57,7 @@ public sealed class MainMenuTrashController : MonoBehaviour
 
     private void AutoFindTrashObjects()
     {
+        // Las piezas ocultas también cuentan; FindObjectsByType no devuelve objetos inactivos.
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
         List<GameObject> foundObjects = new List<GameObject>();
 

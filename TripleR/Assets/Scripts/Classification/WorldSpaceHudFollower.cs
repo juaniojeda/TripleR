@@ -24,6 +24,7 @@ public sealed class WorldSpaceHudFollower : MonoBehaviour
 
     private void LateUpdate()
     {
+        // Espera al tracking XR para que el HUD no arrastre un frame de retraso.
         Transform followTarget = ResolveTarget();
         if (followTarget == null)
             return;

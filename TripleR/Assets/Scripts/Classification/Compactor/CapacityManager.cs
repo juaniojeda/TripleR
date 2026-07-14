@@ -45,6 +45,7 @@ public sealed class CapacityManager : MonoBehaviour
         if (leverPivot == null || currentItems == 0)
             return;
 
+        // Unity entrega localEulerAngles en 0..360; así el umbral funciona en ambos sentidos.
         float rawAngle = leverPivot.localEulerAngles.x;
         float normalizedAngle = rawAngle > 180f ? rawAngle - 360f : rawAngle;
 

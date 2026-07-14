@@ -16,6 +16,7 @@ public static class ValaMaterialAtlasBuilder
     private static readonly int BaseMapId = Shader.PropertyToID("_BaseMap");
     private static readonly int MainTexId = Shader.PropertyToID("_MainTex");
 
+    // Un vértice compartido por submeshes necesita una copia para recibir otro UV.
     private struct VertexKey
     {
         public int SourceIndex;
@@ -66,6 +67,7 @@ public static class ValaMaterialAtlasBuilder
         try
         {
             Renderer[] renderers = instance.GetComponentsInChildren<Renderer>(true);
+            // Opacos y transparentes usan materiales y colas de render distintas.
             List<Material> opaqueMaterials = CollectMaterials(renderers, transparent: false);
             List<Material> transparentMaterials = CollectMaterials(renderers, transparent: true);
 
@@ -229,6 +231,7 @@ public static class ValaMaterialAtlasBuilder
                 }
             }
 
+            // El margen evita que los mipmaps tomen color de una celda vecina.
             float paddedX = (x + Padding) / (float)width;
             float paddedY = (y + Padding) / (float)height;
             float paddedW = (CellSize - Padding * 2) / (float)width;
@@ -282,6 +285,7 @@ public static class ValaMaterialAtlasBuilder
 
             List<int> targetTriangles = isTransparent ? transparentTriangles : opaqueTriangles;
             int[] sourceTriangles = source.GetTriangles(submesh);
+            // Cada celda es plana; todos los vértices del submesh apuntan al centro.
             Vector2 atlasUv = rect.center;
 
             if (isTransparent)

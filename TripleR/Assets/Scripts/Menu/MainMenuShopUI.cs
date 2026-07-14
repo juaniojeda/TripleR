@@ -112,6 +112,7 @@ public sealed class MainMenuShopUI : MonoBehaviour
         {
             for (int i = 0; i < licenseSlots.Length; i++)
             {
+                // La copia evita que todos los listeners terminen usando el último índice.
                 int index = i;
                 LicenseSlot slot = licenseSlots[index];
 
