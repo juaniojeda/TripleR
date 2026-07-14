@@ -47,6 +47,9 @@ public sealed class VRPoolManager : MonoBehaviour
     {
         pools.Clear();
 
+        if (poolItems == null)
+            return;
+
         for (int i = 0; i < poolItems.Length; i++)
         {
             PoolItemData itemData = poolItems[i];

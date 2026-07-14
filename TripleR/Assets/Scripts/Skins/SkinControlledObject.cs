@@ -58,8 +58,6 @@ public sealed class SkinControlledObject : MonoBehaviour
 
         bool active = PlayerProfile.IsSkinActive(skinData.SkinId);
 
-        Debug.Log($"{name}: skin {skinData.SkinId} activa = {active}");
-
         if (activateTarget != null)
             activateTarget.SetActive(active);
         else

@@ -24,9 +24,10 @@ public sealed class MainMenuTrashController : MonoBehaviour
         if (trashObjects == null)
             return;
 
-        int trashLevel = Mathf.Clamp(PlayerPrefs.GetInt(PerformanceSessionStorage.TrashLevelKey, 0), 0, trashObjects.Length);
+        int storedTrashLevel = PlayerPrefs.GetInt(PerformanceSessionStorage.TrashLevelKey, 0);
+        int trashLevel = Mathf.Clamp(storedTrashLevel, 0, trashObjects.Length);
 
-        if (trashLevel != PlayerPrefs.GetInt(PerformanceSessionStorage.TrashLevelKey, 0))
+        if (trashLevel != storedTrashLevel)
         {
             PlayerPrefs.SetInt(PerformanceSessionStorage.TrashLevelKey, trashLevel);
             PlayerPrefs.Save();

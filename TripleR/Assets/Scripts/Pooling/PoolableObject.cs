@@ -1,4 +1,3 @@
-using Meta.XR.MRUtilityKit.SceneDecorator;
 using UnityEngine;
 
 public sealed class PoolableObject : MonoBehaviour

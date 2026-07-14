@@ -1,4 +1,3 @@
-using Meta.XR.MRUtilityKit.SceneDecorator;
 using System.Collections.Generic;
 using UnityEngine;
 

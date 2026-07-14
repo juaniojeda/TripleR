@@ -46,8 +46,6 @@ public class BulletTimePowerUp : MonoBehaviour
 
     public void GrabPowerUp()
     {
-        Debug.Log("POWER UP AGARRADO - ACTIVANDO BULLET TIME");
-
         if (!isAvailable)
             return;
 
@@ -69,13 +67,9 @@ public class BulletTimePowerUp : MonoBehaviour
 
         HidePowerUp();
 
-        Debug.Log("POWER UP OCULTO - ESPERANDO RESPAWN");
-
         yield return new WaitForSecondsRealtime(respawnDelay);
 
         RespawnPowerUp();
-
-        Debug.Log("POWER UP REAPARECIDO");
 
         isAvailable = true;
     }

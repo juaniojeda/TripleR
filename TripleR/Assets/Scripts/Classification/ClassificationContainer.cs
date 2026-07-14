@@ -14,11 +14,11 @@ public sealed class ClassificationContainer : MonoBehaviour
     [SerializeField] private AK.Wwise.Event correctEvent;
     [SerializeField] private AK.Wwise.Event wrongEvent;
 
-    private CapacityManager _capacityManager;
+    private CapacityManager capacityManager;
 
     private void Awake()
     {
-        _capacityManager = GetComponentInChildren<CapacityManager>();
+        capacityManager = GetComponentInChildren<CapacityManager>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,34 +37,22 @@ public sealed class ClassificationContainer : MonoBehaviour
         bool isCorrectCategory = IsCorrectCategory(data);
 
         bool isSuccessful;
-        if (_capacityManager != null)
+        if (capacityManager != null)
         {
-            isSuccessful = _capacityManager.TryClassify(isCorrectCategory);
+            isSuccessful = capacityManager.TryClassify(isCorrectCategory);
         }
         else
         {
             isSuccessful = isCorrectCategory;
         }
 
-        int points;
-
         if (scoreManager != null)
-            points = scoreManager.AddClassificationResult(isSuccessful, data.CorrectPoints, data.WrongPoints);
-        else
-            points = isSuccessful ? data.CorrectPoints : data.WrongPoints;
+            scoreManager.AddClassificationResult(isSuccessful, data.CorrectPoints, data.WrongPoints);
 
         PlayResultSound(isSuccessful);
 
         if (isSuccessful)
             OnCorrectClassification?.Invoke(other.transform.position);
-
-        // Loggggggggggggggggggggg
-        if (isSuccessful)
-            Debug.Log($"Correcto: {data.Id} en {acceptedCategoryId}. +{points}");
-        else if (isCorrectCategory && _capacityManager != null && _capacityManager.IsFull)
-            Debug.Log($"Error: Tacho {acceptedCategoryId} lleno. {data.Id} denegado. {points} pts");
-        else
-            Debug.Log($"Incorrecto: {data.Id} no pertenece a {acceptedCategoryId}. {points} pts");
 
         if (returnToPoolAfterClassify)
             poolableObject.ReturnToPool();
