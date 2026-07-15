@@ -63,6 +63,7 @@ public sealed class WasteReleaseMagnetListener : MonoBehaviour
 
     private void Subscribe()
     {
+        // Initialize y OnEnable pueden coincidir al sacar un objeto del pool.
         if (subscribed)
             return;
 
@@ -87,6 +88,7 @@ public sealed class WasteReleaseMagnetListener : MonoBehaviour
 
     private void HandlePointerEventRaised(PointerEvent pointerEvent)
     {
+        // El imán actúa al soltar para no competir con el agarre de Meta.
         if (pointerEvent.Type != PointerEventType.Unselect)
             return;
 

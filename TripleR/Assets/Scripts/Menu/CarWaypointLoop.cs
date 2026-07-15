@@ -10,27 +10,30 @@ public class CarWaypointLoop : MonoBehaviour
     public float rotationSpeed = 5f;
     public float waypointDistance = 0.5f;
 
-    private int currentWaypointIndex = 0;
+    private int currentWaypointIndex;
 
-    void Update()
+    private void Update()
     {
         if (waypoints == null || waypoints.Length == 0)
             return;
 
         Transform targetWaypoint = waypoints[currentWaypointIndex];
 
-        // Dirección hacia el waypoint
+        if (targetWaypoint == null)
+        {
+            AdvanceToNextWaypoint();
+            return;
+        }
+
         Vector3 direction = targetWaypoint.position - transform.position;
         direction.y = 0f;
 
-        // Movimiento
         transform.position = Vector3.MoveTowards(
             transform.position,
             targetWaypoint.position,
             speed * Time.deltaTime
         );
 
-        // Rotación suave hacia el waypoint
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -41,17 +44,14 @@ public class CarWaypointLoop : MonoBehaviour
             );
         }
 
-        // Pasar al siguiente waypoint
         float distance = Vector3.Distance(transform.position, targetWaypoint.position);
 
         if (distance < waypointDistance)
-        {
-            currentWaypointIndex++;
+            AdvanceToNextWaypoint();
+    }
 
-            if (currentWaypointIndex >= waypoints.Length)
-            {
-                currentWaypointIndex = 0;
-            }
-        }
+    private void AdvanceToNextWaypoint()
+    {
+        currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
     }
 }

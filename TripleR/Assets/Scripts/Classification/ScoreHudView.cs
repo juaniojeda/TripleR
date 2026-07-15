@@ -60,6 +60,7 @@ public sealed class ScoreHudView
 
     public void RefreshCombo(int combo, float multiplier)
     {
+        // El diseño actual muestra solo el multiplicador, aunque el cálculo también entrega el combo.
         _ = combo;
 
         if (comboText != null)

@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace Oculus.Interaction
 {
-    /// Versión modificada del OneGrabRotateTransformer de Meta que incluye 
-    /// auto-retorno al ángulo 0, manteniendo sincronizada la matemática interna.
+    /// Adapta el giro de Meta con retorno automático sin desincronizar sus ángulos internos.
     public class SmartRotateTransformer : MonoBehaviour, ITransformer
     {
         public enum Axis
@@ -111,6 +110,7 @@ namespace Oculus.Interaction
             Vector3 grabDelta = grabPoint.position - _worldPivotPose.position;
             if (Mathf.Abs(grabDelta.magnitude) < 0.001f)
             {
+                // Sobre el pivote no existe un vector válido para calcular el ángulo de agarre.
                 Vector3 localAxisNext = Vector3.zero;
                 localAxisNext[((int)_rotationAxis + 1) % 3] = 0.001f;
                 grabDelta = _worldPivotPose.rotation * localAxisNext;
@@ -186,6 +186,7 @@ namespace Oculus.Interaction
 
         public void EndTransform() { }
 
+        // Conectado al evento de liberación del interactuable en la escena.
         public void StartAutoReturn()
         {
             if (_returnRoutine != null) StopCoroutine(_returnRoutine);
@@ -209,6 +210,7 @@ namespace Oculus.Interaction
             Vector3 localAxis = Vector3.zero;
             localAxis[(int)_rotationAxis] = 1f;
 
+            // Usa los mismos acumuladores del agarre para que el siguiente grab no salte.
             while (Mathf.Abs(_constrainedRelativeAngle - targetAngle) > 0.1f)
             {
                 _relativeAngle = Mathf.Lerp(_relativeAngle, targetAngle, Time.deltaTime * returnSpeed);

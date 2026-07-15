@@ -2,6 +2,7 @@ using UnityEngine;
 
 public sealed class ScoreTimer
 {
+    // Evita redibujar el contador varias veces dentro del mismo segundo visible.
     private int lastDisplayedSecond = -1;
 
     public ScoreTimer(float initialTime, bool startImmediately = false)

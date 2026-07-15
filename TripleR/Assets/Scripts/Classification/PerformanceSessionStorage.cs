@@ -15,6 +15,7 @@ public static class PerformanceSessionStorage
     public const string LastWasWinKey = "LastWasWin";
     public const string TrashLevelKey = "TrashLevel";
 
+    // PlayerPrefs funciona como puente entre Game y la escena de resultados.
     public static void SaveLastSession(int score, int correctCount, int errorCount, int totalWasteGenerated, PerformanceResult result, int coinsEarned)
     {
         SaveLastSession(score, correctCount, errorCount, totalWasteGenerated, result, coinsEarned, 1000, ScoreStarsFormatter.MaxStars);
@@ -44,6 +45,7 @@ public static class PerformanceSessionStorage
 
     private static int GetTrashDelta(int stars)
     {
+        // Un mal resultado acumula basura en el menú; desde tres estrellas empieza a limpiarla.
         switch (stars)
         {
             case 0:

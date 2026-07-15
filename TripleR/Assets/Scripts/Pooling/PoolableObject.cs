@@ -1,4 +1,3 @@
-using Meta.XR.MRUtilityKit.SceneDecorator;
 using UnityEngine;
 
 public sealed class PoolableObject : MonoBehaviour
@@ -70,6 +69,7 @@ public sealed class PoolableObject : MonoBehaviour
         if (magnetListener == null)
             magnetListener = GetComponent<WasteReleaseMagnetListener>();
 
+        // Todo residuo pooled debe escuchar la liberación aunque el prefab no traiga el componente.
         if (magnetListener == null)
             magnetListener = gameObject.AddComponent<WasteReleaseMagnetListener>();
 

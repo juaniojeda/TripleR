@@ -113,6 +113,7 @@ public static class PlayerProfile
 
         string activeKey = GetSkinActiveKey(skinId);
 
+        // Las compras guardadas antes de incorporar SkinActive se consideran activas.
         if (!PlayerPrefs.HasKey(activeKey))
             return true;
 
