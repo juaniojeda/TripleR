@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public sealed class MainMenuShopUI : MonoBehaviour
@@ -54,15 +56,21 @@ public sealed class MainMenuShopUI : MonoBehaviour
         Skins
     }
 
-    private ShopSection currentSection;
+    private readonly List<Button> purchaseButtons = new List<Button>();
+    private readonly List<UnityAction> purchaseActions = new List<UnityAction>();
+    private bool buttonsRegistered;
 
     private void Awake()
     {
-        currentSection = defaultSection;
         RegisterButtons();
 
         if (shopPanel != null)
             shopPanel.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        UnregisterButtons();
     }
 
     public void OpenShop()
@@ -89,6 +97,11 @@ public sealed class MainMenuShopUI : MonoBehaviour
 
     private void RegisterButtons()
     {
+        if (buttonsRegistered)
+            return;
+
+        buttonsRegistered = true;
+
         if (licensesTabButton != null)
             licensesTabButton.onClick.AddListener(ShowLicenses);
 
@@ -99,11 +112,14 @@ public sealed class MainMenuShopUI : MonoBehaviour
         {
             for (int i = 0; i < licenseSlots.Length; i++)
             {
+                // La copia evita que todos los listeners terminen usando el último índice.
                 int index = i;
                 LicenseSlot slot = licenseSlots[index];
 
-                if (slot != null && slot.buyButton != null)
-                    slot.buyButton.onClick.AddListener(() => TryBuyLicense(index));
+                if (slot == null || slot.buyButton == null)
+                    continue;
+
+                RegisterPurchaseButton(slot.buyButton, () => TryBuyLicense(index));
             }
         }
 
@@ -114,10 +130,41 @@ public sealed class MainMenuShopUI : MonoBehaviour
                 int index = i;
                 SkinSlot slot = skinSlots[index];
 
-                if (slot != null && slot.buyButton != null)
-                    slot.buyButton.onClick.AddListener(() => TryBuySkin(index));
+                if (slot == null || slot.buyButton == null)
+                    continue;
+
+                RegisterPurchaseButton(slot.buyButton, () => TryBuySkin(index));
             }
         }
+    }
+
+    private void RegisterPurchaseButton(Button button, UnityAction action)
+    {
+        button.onClick.AddListener(action);
+        purchaseButtons.Add(button);
+        purchaseActions.Add(action);
+    }
+
+    private void UnregisterButtons()
+    {
+        if (!buttonsRegistered)
+            return;
+
+        if (licensesTabButton != null)
+            licensesTabButton.onClick.RemoveListener(ShowLicenses);
+
+        if (skinsTabButton != null)
+            skinsTabButton.onClick.RemoveListener(ShowSkins);
+
+        for (int i = 0; i < purchaseButtons.Count; i++)
+        {
+            if (purchaseButtons[i] != null)
+                purchaseButtons[i].onClick.RemoveListener(purchaseActions[i]);
+        }
+
+        purchaseButtons.Clear();
+        purchaseActions.Clear();
+        buttonsRegistered = false;
     }
 
     public void ShowLicenses()
@@ -137,9 +184,7 @@ public sealed class MainMenuShopUI : MonoBehaviour
 
     private void ShowSection(ShopSection section)
     {
-        currentSection = section;
-
-        bool showingLicenses = currentSection == ShopSection.Licenses;
+        bool showingLicenses = section == ShopSection.Licenses;
 
         SetSectionPanelActive(licensesPanel, showingLicenses);
         SetSectionPanelActive(skinsPanel, !showingLicenses);

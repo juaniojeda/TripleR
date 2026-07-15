@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TutorialPagesUI : MonoBehaviour
 {
+    /// Habilita cinta, spawner y reloj una vez cerrada la última página.
     public event Action OnTutorialFinished;
 
     [Header("Textos TextMeshPro")]

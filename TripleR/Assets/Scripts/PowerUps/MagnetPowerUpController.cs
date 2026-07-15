@@ -191,6 +191,7 @@ public sealed class MagnetPowerUpController : MonoBehaviour
             OriginalUseGravity = rb.useGravity
         };
 
+        // Unselect llega fuera de FixedUpdate; la física cambia en el siguiente paso fijo.
         pendingWastes.Add(waste);
         PlayEvent(magnetizeEvent, poolableObject.gameObject);
     }
@@ -256,6 +257,7 @@ public sealed class MagnetPowerUpController : MonoBehaviour
 
     private void FinishMagnetizedWaste(MagnetizedWaste waste)
     {
+        // La caída final evita que el residuo quede flotando sobre el trigger del contenedor.
         waste.Rigidbody.useGravity = waste.OriginalUseGravity;
         waste.Rigidbody.linearVelocity = Vector3.down * Mathf.Max(0.5f, startSpeed * 0.4f);
     }
@@ -292,6 +294,7 @@ public sealed class MagnetPowerUpController : MonoBehaviour
 
     private static void RemoveAtSwapBack(List<MagnetizedWaste> list, int index)
     {
+        // El orden no importa y así no se desplaza toda la lista en cada baja.
         int lastIndex = list.Count - 1;
         list[index] = list[lastIndex];
         list.RemoveAt(lastIndex);

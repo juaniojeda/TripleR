@@ -68,6 +68,7 @@ public sealed class MagnetPowerUpButton : MonoBehaviour
 
         HidePowerUp();
 
+        // El respawn no debe alargarse si bullet time está activo.
         yield return new WaitForSecondsRealtime(respawnDelay);
 
         RespawnPowerUp();

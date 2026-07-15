@@ -9,15 +9,13 @@ public sealed class PlayerMouth : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // 1. Verificamos si el objeto en la boca es el Bullet Time
         if (other.TryGetComponent(out BulletTimePowerUp bulletTime))
         {
             bulletTime.GrabPowerUp();
             PlayFeedback();
-            return; // Salimos para no seguir evaluando
+            return;
         }
 
-        // 2. Verificamos si el objeto en la boca es el Imán
         if (other.TryGetComponent(out MagnetPowerUpButton magnetPowerUp))
         {
             magnetPowerUp.Press();

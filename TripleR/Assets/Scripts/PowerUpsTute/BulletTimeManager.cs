@@ -44,7 +44,7 @@ public class BulletTimeManager : MonoBehaviour
     {
         yield return LerpTimeScale(Time.timeScale, slowTimeScale, enterDuration);
 
-        // Espera en tiempo real, no afectado por Time.timeScale
+        // La duración se mide en tiempo real para no multiplicarse por la cámara lenta.
         yield return new WaitForSecondsRealtime(duration);
 
         yield return LerpTimeScale(Time.timeScale, 1f, exitDuration);
@@ -75,7 +75,7 @@ public class BulletTimeManager : MonoBehaviour
     {
         Time.timeScale = value;
 
-        // Ajusta la física para que acompañe la cámara lenta
+        // Mantiene el paso de física proporcional al timeScale global.
         Time.fixedDeltaTime = originalFixedDeltaTime * value;
 
         if (affectAudioPitch)
@@ -103,6 +103,7 @@ public class BulletTimeManager : MonoBehaviour
         SetTimeScale(1f);
     }
 
+    // timeScale es global y debe restaurarse al desactivar o descargar la escena.
     private void OnDisable()
     {
         ForceResetTime();

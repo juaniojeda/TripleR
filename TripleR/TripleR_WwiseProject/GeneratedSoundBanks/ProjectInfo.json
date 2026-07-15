@@ -3,7 +3,7 @@
   "Project": {
    "Name": "TripleR_WwiseProject",
    "GUID": "{E3EF87EB-A2A1-4E6A-B75B-F148D0B46E60}",
-   "Generator": "2025.1.7.9143"
+   "Generator": "2025.1.8.9170"
   },
   "CacheRoot": "../.cache",
   "Platforms": [
@@ -38,6 +38,6 @@
     "UseAsStandIn": "true"
    }
   ],
-  "FileHash": "{BEE8E678-AE0A-A96A-05F4-BA824BF5C07A}"
+  "FileHash": "{7136F416-8B62-6313-AE72-CE4AE9AAD89E}"
  }
 }

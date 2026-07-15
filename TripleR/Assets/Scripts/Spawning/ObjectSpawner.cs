@@ -36,6 +36,7 @@ public sealed class ObjectSpawner : MonoBehaviour
 
     private void OnEnable()
     {
+        // El perfil pudo cambiar en el menú; se reconstruyen los desbloqueos al volver a Game.
         RebuildActiveItems();
 
         if (spawnOnStart)

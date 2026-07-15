@@ -28,6 +28,7 @@ public sealed class ScoreTextAnimator
         if (scoreText == null || coroutineOwner == null)
             return;
 
+        // Restaura la pose base para que dos efectos seguidos no acumulen transformaciones.
         StopActiveAnimation();
 
         if (amount > 0)

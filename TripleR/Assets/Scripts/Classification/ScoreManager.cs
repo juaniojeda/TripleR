@@ -160,6 +160,7 @@ public sealed class ScoreManager : MonoBehaviour
         if (clampToZero && currentScore < 0)
             currentScore = 0;
 
+        // Los aciertos alargan la partida y las penalizaciones también consumen tiempo.
         if (scoreTimer != null && scoreTimer.IsRunning)
         {
             scoreTimer.AddSeconds(amount * secondsPerPoint);
@@ -192,6 +193,7 @@ public sealed class ScoreManager : MonoBehaviour
     {
         EnsureInitialized();
 
+        // Mantiene la acreditación idempotente aunque ClaimCoins se invoque más de una vez.
         if (coinsClaimed)
             return 0;
 
@@ -220,6 +222,7 @@ public sealed class ScoreManager : MonoBehaviour
         PerformanceResult result = ScorePerformanceEvaluator.Evaluate(currentScore, maxScoreForStars, maxStars);
         int totalCoinsEarned = pointCoinsEarnedThisSession + result.BaseCoins;
 
+        // OnWin y OnLose pueden cambiar de escena; se guarda todo antes de invocarlos.
         PlayerProfile.AddCoins(result.BaseCoins);
         PerformanceSessionStorage.SaveLastSession(currentScore, correctCount, errorCount, totalWasteGenerated, result, totalCoinsEarned, maxScoreForStars, maxStars);
         PerformanceSessionStorage.UpdateTrashLevel(result.Stars);
@@ -261,6 +264,7 @@ public sealed class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
+        // El reloj permanece detenido mientras las páginas del tutorial están abiertas.
         if (tutorialUI != null)
             tutorialUI.OnTutorialFinished += IniciarReloj;
     }

@@ -12,18 +12,19 @@ public sealed class WorldSpaceHudFollower : MonoBehaviour
     [SerializeField] private bool copyTargetRotation = true;
     [SerializeField] private bool lookAtTargetHorizontally;
 
-    private Camera _cachedMainCamera;
-    private Canvas _canvas;
+    private Camera cachedMainCamera;
+    private Canvas canvas;
 
     private void Awake()
     {
-        _canvas = GetComponent<Canvas>();
+        canvas = GetComponent<Canvas>();
         ApplyUiLayerRecursively();
         transform.localScale = hudScale;
     }
 
     private void LateUpdate()
     {
+        // Espera al tracking XR para que el HUD no arrastre un frame de retraso.
         Transform followTarget = ResolveTarget();
         if (followTarget == null)
             return;
@@ -45,8 +46,8 @@ public sealed class WorldSpaceHudFollower : MonoBehaviour
 
         transform.localScale = hudScale;
 
-        if (_canvas != null && _canvas.worldCamera != _cachedMainCamera)
-            _canvas.worldCamera = _cachedMainCamera;
+        if (canvas != null && canvas.worldCamera != cachedMainCamera)
+            canvas.worldCamera = cachedMainCamera;
     }
 
     private Transform ResolveTarget()
@@ -54,10 +55,10 @@ public sealed class WorldSpaceHudFollower : MonoBehaviour
         if (target != null)
             return target;
 
-        if (_cachedMainCamera == null || !_cachedMainCamera.isActiveAndEnabled)
-            _cachedMainCamera = Camera.main;
+        if (cachedMainCamera == null || !cachedMainCamera.isActiveAndEnabled)
+            cachedMainCamera = Camera.main;
 
-        return _cachedMainCamera != null ? _cachedMainCamera.transform : null;
+        return cachedMainCamera != null ? cachedMainCamera.transform : null;
     }
 
     private void ApplyUiLayerRecursively()

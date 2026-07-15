@@ -1,0 +1,33 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "701668717",
+    "Type": "Event",
+    "GUID": "{85C91443-9150-4A7F-B1F9-8F0E2EE87270}",
+    "Language": "SFX",
+    "Hash": "{5FE68BA1-F85E-7709-4E8E-F365D003AF15}",
+    "ObjectPath": "Stop_Cumbion",
+    "ShortName": "Stop_Cumbion",
+    "Path": "Event/Stop_Cumbion.bnk",
+    "Events": [
+     {
+      "Id": "701668717",
+      "Name": "Stop_Cumbion",
+      "ObjectPath": "\\Events\\Default Work Unit\\Stop_Cumbion",
+      "GUID": "{85C91443-9150-4A7F-B1F9-8F0E2EE87270}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     }
+    ]
+   }
+  ],
+  "FileHash": "{441E2C28-07D5-2522-6739-0560B02E46E0}"
+ }
+}

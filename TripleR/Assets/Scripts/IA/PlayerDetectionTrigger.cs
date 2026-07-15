@@ -19,6 +19,7 @@ public class PlayerDetectionTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // En XR el collider puede estar en un hijo aunque la etiqueta Player viva en la raíz.
         Transform root = other.transform.root;
 
         if (other.CompareTag(playerTag) || root.CompareTag(playerTag))

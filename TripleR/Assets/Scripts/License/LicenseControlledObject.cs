@@ -25,9 +25,6 @@ public sealed class LicenseControlledObject : MonoBehaviour
         }
 
         bool unlocked = PlayerProfile.HasLicense(license.LicenseId);
-
-        Debug.Log($"{name}: licencia {license.LicenseId} comprada = {unlocked}");
-
         targetObject.SetActive(unlocked);
     }
 }
